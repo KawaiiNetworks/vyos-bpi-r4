@@ -1,0 +1,29 @@
+diff --git a/arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtsi b/arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtsi
+index 3fac9c1c0e27..33a3404b0594 100644
+--- a/arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtsi
+@@ -101,7 +101,23 @@ &gsw_phy0 {
+ };
+ 
+ &gsw_port0 {
+-	label = "wan";
++	label = "eth3";
++	local-mac-address = [02 00 00 b3 14 43];
++};
++
++&gsw_port1 {
++	label = "eth4";
++	local-mac-address = [02 00 00 b3 14 44];
++};
++
++&gsw_port2 {
++	label = "eth5";
++	local-mac-address = [02 00 00 b3 14 45];
++};
++
++&gsw_port3 {
++	label = "eth6";
++	local-mac-address = [02 00 00 b3 14 46];
+ };
+ 
+ &gsw_phy0_led0 {

@@ -1,0 +1,29 @@
+diff --git a/scripts/package-build/linux-kernel/package.toml b/scripts/package-build/linux-kernel/package.toml
+index 1fe68af6..f2ffb650 100644
+--- a/scripts/package-build/linux-kernel/package.toml
++++ b/scripts/package-build/linux-kernel/package.toml
+@@ -12,7 +12,7 @@ build_cmd = "build_kernel"
+ 
+ [[packages]]
+ name = "linux-firmware"
+-commit_id = "20240610"
++commit_id = "20251021"
+ scm_url = "https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
+ build_cmd = "build_linux_firmware"
+ 
+@@ -24,13 +24,13 @@ build_cmd = "build_accel_ppp_ng"
+ 
+ [[packages]]
+ name = "ovpn-dco"
+-commit_id = "v0.2.20231117"
++commit_id = "v0.2.20251017"
+ scm_url = "https://github.com/OpenVPN/ovpn-dco"
+ build_cmd = "build_openvpn_dco"
+ 
+ [[packages]]
+ name = "nat-rtsp"
+-commit_id = "475af0a"
++commit_id = "5aeee02"
+ scm_url = "https://github.com/maru-sama/rtsp-linux.git"
+ build_cmd = "build_nat_rtsp"
+ 

@@ -1,0 +1,79 @@
+diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+index 60cae3ea1caa..21e4873e4493 100755
+--- a/scripts/package/builddeb
++++ b/scripts/package/builddeb
+@@ -100,6 +100,9 @@ install_linux_image () {
+ 	fi
+ 
+ 	cp "${source_image_path}" "${pdir}/${installed_image_path}"
++	if echo "${source_image_path}" | grep -qE '\.itb$'; then
++		cp "${source_image_path}" "${pdir}/boot/vmlinuz-${KERNELRELEASE}"
++	fi
+ 
+ 	# Install the maintainer scripts
+ 	# Note: hook scripts under /etc/kernel are also executed by official Debian
+@@ -180,6 +183,14 @@ install_libc_headers () {
+ 	mv "$pdir/usr/include/asm" "$pdir/usr/include/${DEB_HOST_MULTIARCH}"
+ }
+ 
++install_linux_perf () {
++	pdir=debian/$1
++	rm -rf $pdir
++	$MAKE -C $srctree/tools/ perf_install prefix=$pdir/usr
++
++	mv "$srctree/tools/perf/$pdir/usr" "$pdir"
++}
++
+ package=$1
+ 
+ case "${package}" in
+@@ -191,4 +202,6 @@ linux-libc-dev)
+ 	install_libc_headers "${package}";;
+ linux-headers-*)
+ 	install_kernel_headers "${package}";;
++linux-perf-*)
++	install_linux_perf "${package}";;
+ esac
+diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
+index 2b3f9a0bd6c4..18e716201537 100755
+--- a/scripts/package/debian/rules
++++ b/scripts/package/debian/rules
+@@ -27,13 +27,14 @@ make-opts = ARCH=$(ARCH) KERNELRELEASE=$(KERNELRELEASE) \
+     $(addprefix KBUILD_BUILD_VERSION=,$(revision)) \
+     $(addprefix CROSS_COMPILE=,$(CROSS_COMPILE))
+ 
+-binary-targets := $(addprefix binary-, image image-dbg headers libc-dev)
++binary-targets := $(addprefix binary-, image image-dbg headers libc-dev perf)
+ 
+ all-packages = $(shell dh_listpackages)
+ image-package = $(filter linux-image-% user-%, $(filter-out %-dbg, $(all-packages)))
+ image-dbg-package = $(filter %-dbg, $(all-packages))
+ libc-dev-package = $(filter linux-libc-dev, $(all-packages))
+ headers-package = $(filter linux-headers-%, $(all-packages))
++perf-package = $(filter linux-perf-%, $(all-packages))
+ 
+ mk-files = $(patsubst binary-%,debian/%.files,$1)
+ package = $($(@:binary-%=%-package))
+diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+index 2370f83e1cf2..77f6869ad397 100755
+--- a/scripts/package/mkdebian
++++ b/scripts/package/mkdebian
+@@ -219,6 +219,18 @@ Description: Linux support headers for userspace development
+ Multi-Arch: same
+ EOF
+ 
++cat <<EOF >> debian/control
++
++Package: linux-perf-$version
++Section: devel
++Architecture: $debarch
++Depends: libpfm4, libslang2, libtraceevent1
++Description: Performance analysis tools for Linux $version
++ This package contains the 'perf' performance analysis tools for Linux
++ kernel version $version .
++Multi-Arch: same
++EOF
++
+ if is_enabled CONFIG_MODULES; then
+ cat <<EOF >> debian/control
+ 
