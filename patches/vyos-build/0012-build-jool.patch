@@ -11,3 +11,4 @@ index 3d2c3d6a..7b2e4070 100755
  
  # define variables
  PACKAGE_NAME: str = 'jool'
+ 

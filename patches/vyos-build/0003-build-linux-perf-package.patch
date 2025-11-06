@@ -64,13 +64,13 @@ index 2370f83e1cf2..77f6869ad397 100755
  
 +cat <<EOF >> debian/control
 +
-+Package: linux-perf-$version
++Package: linux-perf-${KERNELRELEASE}
 +Section: devel
 +Architecture: $debarch
 +Depends: libpfm4, libslang2, libtraceevent1
-+Description: Performance analysis tools for Linux $version
++Description: Performance analysis tools for Linux ${KERNELRELEASE}
 + This package contains the 'perf' performance analysis tools for Linux
-+ kernel version $version .
++ kernel version ${KERNELRELEASE} .
 +Multi-Arch: same
 +EOF
 +

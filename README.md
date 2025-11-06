@@ -79,21 +79,23 @@ mv *.deb ../../../packages/
 构建 Kernel
 
 ```bash
-cd vyos-build/scripts/package-build/linux-kernel
-git clone --branch 6.12-main --single-branch https://github.com/frank-w/BPI-Router-Linux linux
+cd ../linux-kernel
+git clone --branch 6.17-main --single-branch https://github.com/frank-w/BPI-Router-Linux linux
 cd linux
-git branch -m 6.12-vyos
+git branch -m 6.17-vyos
 # apply patches
 # 前三个 patches 来自 vyos-build 并被修改适配当前内核版本
 patch -p1 < ../../../../../../patches/vyos-build/0001-linkstate-ip-device-attribute.patch
 patch -p1 < ../../../../../../patches/vyos-build/0002-inotify-support-for-stackable-filesystems.patch
 patch -p1 < ../../../../../../patches/vyos-build/0003-build-linux-perf-package.patch
-patch -p1 < ../patches/v4-0001-nft_ct-Added-nfct_seqadj_ext_add-for-DNAT-ed-conn.patch
-patch -p1 < ../../../../../../patches/vyos-build/0011-build-linux-package-toml.patch
-patch -p1 < ../../../../../../patches/vyos-build/0012-build-jool.patch
-patch -p1 < ../../../../../../patches/vyos-build/0013-build-linux-firmware.patch
+patch -p1 < ../patches/kernel/v4-0001-nft_ct-Added-nfct_seqadj_ext_add-for-DNAT-ed-conn.patch
 patch -p1 < ../../../../../../patches/BPI-Router-Linux/0001-bpi-r4-eth-name.patch
 cp ../../../../../../patches/mt7988a_bpi-r4_defconfig arch/arm64/configs/mt7988a_bpi-r4_defconfig
+cd ../../../..
+patch -p1 < ../../patches/vyos-build/0011-build-linux-package-toml.patch
+patch -p1 < ../../patches/vyos-build/0012-build-jool.patch
+patch -p1 < ../../patches/vyos-build/0013-build-linux-firmware.patch
+cd scripts/package-build/linux-kernel/linux
 bash build.sh importconfig
 bash build.sh build
 bash build.sh pack_debs

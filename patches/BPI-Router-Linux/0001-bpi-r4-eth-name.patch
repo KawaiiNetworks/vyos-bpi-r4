@@ -1,29 +1,44 @@
 diff --git a/arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtsi b/arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtsi
-index 3fac9c1c0e27..33a3404b0594 100644
+index 91d39b84f3ea..54658d99f0d4 100644
 --- a/arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtsi
 +++ b/arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtsi
-@@ -101,7 +101,23 @@ &gsw_phy0 {
+@@ -187,7 +187,8 @@ &gsw_phy0_led0 {
  };
  
  &gsw_port0 {
 -	label = "wan";
 +	label = "eth3";
 +	local-mac-address = [02 00 00 b3 14 43];
-+};
-+
-+&gsw_port1 {
+ };
+ 
+ &gsw_phy1 {
+@@ -202,7 +203,8 @@ &gsw_phy1_led0 {
+ };
+ 
+ &gsw_port1 {
+-	label = "lan1";
 +	label = "eth4";
 +	local-mac-address = [02 00 00 b3 14 44];
-+};
-+
-+&gsw_port2 {
+ };
+ 
+ &gsw_phy2 {
+@@ -217,7 +219,8 @@ &gsw_phy2_led0 {
+ };
+ 
+ &gsw_port2 {
+-	label = "lan2";
 +	label = "eth5";
 +	local-mac-address = [02 00 00 b3 14 45];
-+};
-+
-+&gsw_port3 {
+ };
+ 
+ &gsw_phy3 {
+@@ -232,7 +235,8 @@ &gsw_phy3_led0 {
+ };
+ 
+ &gsw_port3 {
+-	label = "lan3";
 +	label = "eth6";
 +	local-mac-address = [02 00 00 b3 14 46];
  };
  
- &gsw_phy0_led0 {
+ &i2c0 {

@@ -24,3 +24,4 @@ index 2b1fa7b7..d7511c9e 100755
  # Copy firmware file from linux firmware build directory into
  # assembly folder for the vyos-firmware package
  SED_REPLACE="s@${CWD}/${LINUX_FIRMWARE}/@@"
+

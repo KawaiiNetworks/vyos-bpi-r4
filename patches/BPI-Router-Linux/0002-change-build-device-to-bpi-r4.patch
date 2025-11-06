@@ -1,0 +1,19 @@
+diff --git a/build.conf b/build.conf
+index c549407d1d7e..77b9b721d346 100644
+--- a/build.conf
++++ b/build.conf
+@@ -9,12 +9,12 @@ builddir=../build
+ ramdisksize=8G
+ #numproc=8
+ 
+-board=bpi-r2
++#board=bpi-r2
+ #board=bpi-r64
+ #board=bpi-r2pro
+ #board=bpi-r3
+ #board=bpi-r3mini
+-#board=bpi-r4
++board=bpi-r4
+ #board=bpi-r4pro
+ #board=bpi-r4lite
+ 
