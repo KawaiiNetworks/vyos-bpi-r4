@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # nowdir: $PROJECT_ROOT (vyos-bpi-r4)
 
 export kernel_version=$(make -C $PROJECT_ROOT/vyos-arm64-build/vyos-build/scripts/package-build/linux-kernel/linux kernelversion)

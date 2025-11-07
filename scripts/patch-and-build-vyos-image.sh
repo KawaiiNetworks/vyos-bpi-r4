@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # nowdir: $PROJECT_ROOT (vyos-bpi-r4)
 # this script should be run as root
 

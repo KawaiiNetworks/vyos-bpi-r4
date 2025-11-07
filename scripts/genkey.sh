@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 KERNEL_DIR="${SCRIPT_DIR}/../vyos-arm64-build/vyos-build/scripts/package-build/linux-kernel/build"
 KERNEL_DIR=$(realpath ${KERNEL_DIR})
