@@ -30,7 +30,19 @@ cp $PROJECT_ROOT/patches/mt7988a_bpi-r4_defconfig arch/arm64/configs/mt7988a_bpi
 
 bash build.sh importconfig
 bash build.sh build
-bash build.sh pack_debs
+max_retries=5
+count=0
+until (
+    rm -rf ../*.deb
+    bash build.sh pack_debs
+); do
+    count=$((count + 1))
+    echo "pack_debs attempt $count failed, retrying..."
+    if [ $count -ge $max_retries ]; then
+        echo "Failed after $max_retries attempts, exiting."
+        exit 1
+    fi
+done
 bash build.sh pack
 ls -la ../*.deb
 mv ../*.deb $PROJECT_ROOT/vyos-arm64-build/vyos-build/packages/

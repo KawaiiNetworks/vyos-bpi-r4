@@ -8,6 +8,7 @@ IMG_8G_PATCH="bpi-r4_sdmmc_8GB_bl2.img"
 MOUNT_P5="p5"
 MOUNT_P6="p6"
 LABEL_P6="persistence"
+build_version=$(cat $PROJECT_ROOT/build/vyos_version)
 
 mkdir -p $PROJECT_ROOT/build
 . build.conf
@@ -69,7 +70,7 @@ mv "$IMG" "$IMG_4G"
 gzip "$IMG_4G" -c > "$IMG_4G.gz"
 
 IMG_8G=vyos-$build_version-8GBRAM.img
-cp "$IMG_4G" "$IMG_8G"
+mv "$IMG_4G" "$IMG_8G"
 dd if="$IMG_8G_PATCH" of="$IMG_8G" seek="$START_P1" conv=notrunc,fsync status=progress
 gzip "$IMG_8G" -c > "$IMG_8G.gz"
 

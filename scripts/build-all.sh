@@ -13,6 +13,7 @@ rm -rf $PROJECT_ROOT/vyos-arm64-build/vyos-build/scripts/package-build/vyos-1x
 
 bash scripts/patch-and-build-kernel.sh
 bash scripts/patch-and-build-kernel-related-packages.sh
+umount $PROJECT_ROOT/vyos-arm64-build/vyos-build/scripts/package-build/linux-kernel/build
 rm -rf $PROJECT_ROOT/vyos-arm64-build/vyos-build/scripts/package-build/linux-kernel
 
 sudo -E bash scripts/patch-and-build-vyos-image.sh
