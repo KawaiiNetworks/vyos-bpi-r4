@@ -14,8 +14,12 @@
 ## 构建环境准备
 
 ```bash
+git clone https://github.com/KawaiiNetworks/vyos-bpi-r4
+cd vyos-bpi-r4
+git checkout bpi-r4-6.17
 git clone https://github.com/huihuimoe/vyos-arm64-build
 docker run -it --privileged --sysctl net.ipv6.conf.lo.disable_ipv6=0 -v $(pwd):/vyos -w /vyos ghcr.io/huihuimoe/vyos-arm64-build/vyos-builder:current-arm64 bash
+apt update
 apt-get install -y gcc-aarch64-linux-gnu u-boot-tools bc make gcc ccache libc6-dev libncurses5-dev libssl-dev bison flex device-tree-compiler libelf-dev kmod libdw-dev libdebuginfod-dev systemtap-sdt-dev libunwind-dev libslang2-dev libperl-dev python3-dev python3 llvm-dev libzstd-dev libnuma-dev libbabeltrace-ctf-dev libcapstone-dev libpfm4-dev libtraceevent-dev libtracefs-dev default-jdk clang binutils-dev libcap-dev libbpf-dev asciidoc xmlto
 cd vyos-arm64-build
 git clone https://github.com/vyos/vyos-build
@@ -90,11 +94,15 @@ patch -p1 < ../../../../../../patches/vyos-build/0002-inotify-support-for-stacka
 patch -p1 < ../../../../../../patches/vyos-build/0003-build-linux-perf-package.patch
 patch -p1 < ../patches/kernel/v4-0001-nft_ct-Added-nfct_seqadj_ext_add-for-DNAT-ed-conn.patch
 patch -p1 < ../../../../../../patches/BPI-Router-Linux/0001-bpi-r4-eth-name.patch
+patch -p1 < ../../../../../../patches/BPI-Router-Linux/0002-change-build-device-to-bpi-r4.patch
 cp ../../../../../../patches/mt7988a_bpi-r4_defconfig arch/arm64/configs/mt7988a_bpi-r4_defconfig
 cd ../../../..
 patch -p1 < ../../patches/vyos-build/0011-build-linux-package-toml.patch
 patch -p1 < ../../patches/vyos-build/0012-build-jool.patch
 patch -p1 < ../../patches/vyos-build/0013-build-linux-firmware.patch
+patch -p1 < ../../patches/vyos-build/0014-add-vnstat-conf.patch
+patch -p1 < ../../patches/vyos-build/0015-add-nexttrace-repo.patch
+cp ../../patches/vyos-build/9999-kawaii-networks-custom.chroot data/live-build-config/hooks/live/
 cd scripts/package-build/linux-kernel/linux
 bash build.sh importconfig
 bash build.sh build
@@ -118,8 +126,14 @@ mv *.deb ../../../packages/
 
 ```bash
 cd ../../..
+export build_version=$(date +"%Y.%m.%d-%H%M-rolling")
+echo "Build version: $build_version"
 ./build-vyos-image \
  --architecture arm64 \
+ --version $build_version \
+ # for china builders
+#  --debian-mirror "http://mirrors.pku.edu.cn/debian" \
+#  --debian-security-mirror "http://mirrors.pku.edu.cn/debian-security" \
  --build-by "canoziia@projectk.org" \
  --custom-package nexttrace \
  --custom-package vim-tiny \
@@ -129,7 +143,7 @@ cd ../../..
  --custom-package btop \
  --custom-package ripgrep \
  --custom-package wget \
- --custom-package ncdu \
+ --custom-package gdu \
  --custom-package fastnetmon \
  --custom-package containernetworking-plugins \
  --custom-package qemu-guest-agent \

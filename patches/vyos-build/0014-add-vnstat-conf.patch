@@ -1,0 +1,22 @@
+diff --git a/data/build-flavors/generic.toml b/data/build-flavors/generic.toml
+index f49a83c8..b0f6d733 100644
+--- a/data/build-flavors/generic.toml
++++ b/data/build-flavors/generic.toml
+@@ -1,3 +1,17 @@
+ # Generic (aka "universal") ISO image
+ 
+ image_format = "iso"
++[[includes_chroot]]
++path = "etc/vnstat.conf"
++data = 'DatabaseDir "/opt/vyatta/etc/config/user-data/vnstat"'
++[[includes_chroot]]
++path = "etc/systemd/system/vnstat.service.d/override.conf"
++data = '''
++[Unit]
++After=local-fs.target
++[Service]
++ExecStartPre=+mkdir -p /opt/vyatta/etc/config/user-data/vnstat
++ExecStartPre=+chown 104:112 /opt/vyatta/etc/config/user-data/vnstat
++StateDirectory=
++ProtectSystem=off
++'''
