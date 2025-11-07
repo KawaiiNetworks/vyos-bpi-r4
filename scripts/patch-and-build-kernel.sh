@@ -23,6 +23,7 @@ patch -p1 < $PROJECT_ROOT/vyos-arm64-build/vyos-build/scripts/package-build/linu
 # these patches are authored by kawaii networks
 patch -p1 < $PROJECT_ROOT/patches/BPI-Router-Linux/0001-bpi-r4-eth-name.patch
 patch -p1 < $PROJECT_ROOT/patches/BPI-Router-Linux/0002-change-build-device-to-bpi-r4.patch
+patch -p1 < $PROJECT_ROOT/patches/BPI-Router-Linux/0003-allow-run-as-root.patch
 cp $PROJECT_ROOT/patches/mt7988a_bpi-r4_defconfig arch/arm64/configs/mt7988a_bpi-r4_defconfig
 
 bash build.sh importconfig

@@ -1,0 +1,19 @@
+diff --git a/build.sh b/build.sh
+index f71df08b0ff6..6f914f9f1d92 100755
+--- a/build.sh
++++ b/build.sh
+@@ -1,9 +1,9 @@
+ #!/bin/bash
+-if [[ $UID -eq 0 ]];
+-then
+-  echo "do not run as root!"
+-  exit 1;
+-fi
++#if [[ $UID -eq 0 ]];
++#then
++#  echo "do not run as root!"
++#  exit 1;
++#fi
+ 
+ numproc=$(grep ^processor /proc/cpuinfo  | wc -l)
+ 

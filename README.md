@@ -18,7 +18,7 @@ git clone https://github.com/KawaiiNetworks/vyos-bpi-r4
 cd vyos-bpi-r4
 git checkout bpi-r4-6.17
 
-docker run -it --privileged --sysctl net.ipv6.conf.lo.disable_ipv6=0 -v $(pwd):/vyos -w /vyos ghcr.io/huihuimoe/vyos-arm64-build/vyos-builder:current-arm64 bash
+docker run -it --privileged --sysctl net.ipv6.conf.lo.disable_ipv6=0 -v $(pwd):/vyos -w /vyos ghcr.io/kawaiinetworks/vyos-bpi-r4:builder bash
 ```
 
 In the container (we assume that the current user is not root):
@@ -27,7 +27,7 @@ In the container (we assume that the current user is not root):
 export PROJECT_ROOT=$(pwd)
 
 sudo apt update
-sudo apt-get install -y gcc-aarch64-linux-gnu u-boot-tools bc make gcc ccache libc6-dev libncurses5-dev libssl-dev bison flex device-tree-compiler libelf-dev kmod libdw-dev libdebuginfod-dev systemtap-sdt-dev libunwind-dev libslang2-dev libperl-dev python3-dev python3 llvm-dev libzstd-dev libnuma-dev libbabeltrace-ctf-dev libcapstone-dev libpfm4-dev libtraceevent-dev libtracefs-dev default-jdk clang binutils-dev libcap-dev libbpf-dev asciidoc xmlto u-boot-tools
+# sudo apt-get install -y gcc-aarch64-linux-gnu u-boot-tools bc make gcc ccache libc6-dev libncurses5-dev libssl-dev bison flex device-tree-compiler libelf-dev kmod libdw-dev libdebuginfod-dev systemtap-sdt-dev libunwind-dev libslang2-dev libperl-dev python3-dev python3 llvm-dev libzstd-dev libnuma-dev libbabeltrace-ctf-dev libcapstone-dev libpfm4-dev libtraceevent-dev libtracefs-dev default-jdk clang binutils-dev libcap-dev libbpf-dev asciidoc xmlto u-boot-tools
 
 git clone https://github.com/huihuimoe/vyos-arm64-build
 cd $PROJECT_ROOT/vyos-arm64-build
