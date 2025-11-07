@@ -1,0 +1,53 @@
+name: Build and Release VyOS BPI-R4
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Tag to build"
+        required: true
+
+jobs:
+  build_and_release:
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: write
+    container:
+      image: ghcr.io/huihuimoe/vyos-arm64-build/vyos-builder:current-arm64
+      options: --sysctl net.ipv6.conf.lo.disable_ipv6=0 --privileged
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.ref || github.ref_name }}
+
+      - name: Build all
+        id: build
+        run: |
+          /vyos/scripts/build-all.sh
+          echo "vyos_version=$(cat build/vyos_version)" >> $GITHUB_OUTPUT
+          files=$(ls build/*.img.gz | tr '\n' ' ')
+          echo "files=$files" >> $GITHUB_OUTPUT
+
+      - name: Generate unique release name
+        id: release_name
+        run: |
+          release_name="${{ steps.build.outputs.vyos_version }}-${{ github.ref_name }}"
+          echo "release_name=$release_name" >> $GITHUB_OUTPUT
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ steps.release_name.outputs.release_name }}
+          files: ${{ steps.build.outputs.files }}
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

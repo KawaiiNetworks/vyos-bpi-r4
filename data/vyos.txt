@@ -1,1 +1,0 @@
-vyosversion=2025.11.03-0713-rolling

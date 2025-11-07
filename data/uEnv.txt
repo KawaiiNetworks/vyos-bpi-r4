@@ -1,8 +1,8 @@
 kaddr=0x40000000
-rootpart=6
-vyosenv=vyos.txt
-loadvyosversion=if load ${device} ${partition} ${loadaddr} ${vyosenv};then env import -t ${loadaddr} ${filesize};else echo "load (${vyosenv}) failed";fi
+setrootpart=setenv rootpart ${partition%:*}:$(( ${partition#*:} + 1 ))
+vyosenv=boot/vyos.txt
+loadvyosversion=run setrootpart;if load ${device} ${rootpart} ${loadaddr} ${vyosenv};then env import -t ${loadaddr} ${filesize};else echo "load (${vyosenv}) failed";fi
 setbootargs=setenv bootargs "BOOT_IMAGE=/boot/${vyosversion}/vmlinuz console=ttyS0,115200n8 rootdelay=5 boot=live vyos-union=/boot/${vyosversion} net.ifnames=0 biosdevname=0"
-bootvyos=run loadvyosversion;run setbootconf;run setbootargs;ext4load ${device} 0:${rootpart} ${kaddr} boot/${vyosversion}/vmlinuz;ext4load ${device} 0:${rootpart} ${rdaddr} boot/${vyosversion}/uInitrd;bootm ${kaddr}${bootconf} ${rdaddr};
+bootvyos=run setrootpart;run loadvyosversion;run setbootconf;run setbootargs;ext4load ${device} 0:${rootpart} ${kaddr} boot/${vyosversion}/vmlinuz;ext4load ${device} 0:${rootpart} ${rdaddr} boot/${vyosversion}/uInitrd;bootm ${kaddr}${bootconf} ${rdaddr};
 bootmenu_5=Boot VyOS.=run bootvyos
 bootmenu_default=5
