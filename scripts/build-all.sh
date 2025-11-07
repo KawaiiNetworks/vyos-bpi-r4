@@ -7,10 +7,11 @@ git clone https://github.com/huihuimoe/vyos-arm64-build
 git clone https://github.com/vyos/vyos-build vyos-arm64-build/vyos-build
 
 bash scripts/patch-and-build-vyos-1x.sh
+rm -rf $PROJECT_ROOT/vyos-arm64-build/vyos-build/scripts/package-build/vyos-1x
 
 bash scripts/patch-and-build-kernel.sh
-
 bash scripts/patch-and-build-kernel-related-packages.sh
+rm -rf $PROJECT_ROOT/vyos-arm64-build/vyos-build/scripts/package-build/linux-kernel
 
 sudo -E bash scripts/patch-and-build-vyos-image.sh
 
