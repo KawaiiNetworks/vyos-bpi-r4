@@ -54,7 +54,7 @@ cp $PROJECT_ROOT/data/vyos.txt "$MOUNT_P6/boot/"
 echo "vyosversion=$build_version" >> "$MOUNT_P6/boot/vyos.txt"
 cp $PROJECT_ROOT/data/persistence.conf "$MOUNT_P6/"
 cp -a ../chroot/boot/* "$MOUNT_P6/boot/$build_version/"
-mkimage -A arm64 -T ramdisk -C none -d initrd.img-$kernel_version-vyos uInitrd
+mkimage -A arm64 -T ramdisk -C none -d "$MOUNT_P6/boot/$build_version/initrd.img-$kernel_version-vyos" "$MOUNT_P6/boot/$build_version/uInitrd"
 python3 $PROJECT_ROOT/scripts/install_grub.py
 
 tar -czpvf $PROJECT_ROOT/build/vyos-$build_version.tar.gz -C $MOUNT_P6/boot $build_version
