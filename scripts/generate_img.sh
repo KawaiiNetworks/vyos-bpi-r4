@@ -5,10 +5,10 @@ set -e
 IMG="bpi-r4_sdmmc.img"
 IMGGZ="bpi-r4_sdmmc.img.gz"
 IMG_8G_PATCH="bpi-r4_sdmmc_8GB_bl2.img"
-MOUNT_P5="p5"
-MOUNT_P6="p6"
+export MOUNT_P5="p5"
+export MOUNT_P6="p6"
 LABEL_P6="persistence"
-build_version=$(cat $PROJECT_ROOT/build/vyos_version)
+export build_version=$(cat $PROJECT_ROOT/build/vyos_version)
 
 mkdir -p $PROJECT_ROOT/build
 . build.conf
@@ -77,7 +77,7 @@ gzip "$IMG_8G" -c > "$IMG_8G.gz"
 rm -rf "$IMG_8G"
 rm -rf "$IMG_8G_PATCH"
 rm -rf "$MOUNT_P5" "$MOUNT_P6"
-mv img/*.img.gz $PROJECT_ROOT/build/
+mv ./*.img.gz $PROJECT_ROOT/build/
 
 echo "Generated images are located in the $PROJECT_ROOT/build/ directory:"
 ls -la $PROJECT_ROOT/build/

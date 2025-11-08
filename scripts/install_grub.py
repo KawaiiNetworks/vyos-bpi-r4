@@ -18,6 +18,9 @@ def gen_version_uuid(version_name: str) -> str:
     return ver_id
 
 
+PROJECT_ROOT = os.getenv("PROJECT_ROOT")
+MOUNT_P5 = os.getenv("MOUNT_P5")
+MOUNT_P6 = os.getenv("MOUNT_P6")
 build_version = os.getenv("build_version")
 version_uuid = gen_version_uuid(build_version)
 
@@ -41,19 +44,24 @@ CFG = """menuentry "YYYY.MM.DD-HHMM-rolling" --id uuid5-00000000-0000-0000-0000-
     fi
     linux "/boot/YYYY.MM.DD-HHMM-rolling/vmlinuz" ${boot_opts}
     initrd "/boot/YYYY.MM.DD-HHMM-rolling/initrd.img"
-}
-grub/grub.cfg.d/vyos-versions/"""
+}"""
 CFG = CFG.replace("YYYY.MM.DD-HHMM-rolling", build_version).replace(
     "uuid5-00000000-0000-0000-0000-000000000000", version_uuid
 )
 
-os.system("tar -xzpvf ../../../../data/grub.tar.gz -C p6/boot/")
+os.system(
+    f"tar -xzpvf {PROJECT_ROOT}/data/grub.tar.gz -C {PROJECT_ROOT}/vyos-arm64-build/vyos-build/build/img/{MOUNT_P6}/boot/"
+)
 with open(
-    f"p6/boot/grub/grub.cfg.d/vyos-versions/{build_version}.cfg", "w", encoding="utf-8"
+    f"{PROJECT_ROOT}/vyos-arm64-build/vyos-build/build/img/{MOUNT_P6}/boot/grub/grub.cfg.d/vyos-versions/{build_version}.cfg",
+    "w",
+    encoding="utf-8",
 ) as f:
     f.write(CFG)
 with open(
-    "p6/boot/grub/grub.cfg.d/20-vyos-defaults-autoload.cfg", "r+", encoding="utf-8"
+    f"{PROJECT_ROOT}/vyos-arm64-build/vyos-build/build/img/{MOUNT_P6}/boot/grub/grub.cfg.d/20-vyos-defaults-autoload.cfg",
+    "r+",
+    encoding="utf-8",
 ) as f:
     defaults_autoload = f.read()
     f.seek(0)
