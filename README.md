@@ -73,3 +73,105 @@ sudo -E bash scripts/generate_img.sh
 ```
 
 Finally we get 2 img.gz in after build.
+
+## How to USE
+
+VyOS supports 2.4G/6G wifi6.
+
+a example configuration:
+
+```vbash
+edit interface
+set wireless wlan0 capabilities he antenna-pattern-fixed
+set wireless wlan0 capabilities he beamform multi-user-beamformer
+set wireless wlan0 capabilities he beamform single-user-beamformee
+set wireless wlan0 capabilities he beamform single-user-beamformer
+set wireless wlan0 capabilities he bss-color '13'
+set wireless wlan0 capabilities he channel-set-width '81'
+set wireless wlan0 capabilities ht 40mhz-incapable
+set wireless wlan0 capabilities ht channel-set-width 'ht20'
+set wireless wlan0 capabilities ht channel-set-width 'ht40-'
+set wireless wlan0 capabilities ht channel-set-width 'ht40+'
+set wireless wlan0 capabilities ht short-gi '20'
+set wireless wlan0 capabilities ht short-gi '40'
+set wireless wlan0 capabilities ht stbc rx '2'
+set wireless wlan0 capabilities ht stbc tx
+set wireless wlan0 channel '11'
+set wireless wlan0 disable
+set wireless wlan0 hw-id 'xx:xx:xx:xx:xx:xx'
+set wireless wlan0 mac 'yo:ur:ma:c0:ad:dr'
+set wireless wlan0 mgmt-frame-protection 'required'
+set wireless wlan0 mode 'ax'
+set wireless wlan0 physical-device 'phy0'
+set wireless wlan0 security wpa cipher 'CCMP'
+set wireless wlan0 security wpa cipher 'CCMP-256'
+set wireless wlan0 security wpa cipher 'GCMP'
+set wireless wlan0 security wpa cipher 'GCMP-256'
+set wireless wlan0 security wpa mode 'wpa3'
+set wireless wlan0 security wpa passphrase 'password'
+set wireless wlan0 ssid 'BPI-R4-2.4G'
+set wireless wlan0 stationary-ap
+set wireless wlan0 type 'access-point'
+set wireless wlan1 capabilities ht 40mhz-incapable
+set wireless wlan1 capabilities ht channel-set-width 'ht20'
+set wireless wlan1 capabilities ht channel-set-width 'ht40-'
+set wireless wlan1 capabilities ht channel-set-width 'ht40+'
+set wireless wlan1 capabilities ht short-gi '20'
+set wireless wlan1 capabilities ht short-gi '40'
+set wireless wlan1 capabilities ht stbc rx '2'
+set wireless wlan1 capabilities ht stbc tx
+set wireless wlan1 capabilities vht antenna-count '3'
+set wireless wlan1 capabilities vht antenna-pattern-fixed
+set wireless wlan1 capabilities vht beamform 'multi-user-beamformer'
+set wireless wlan1 capabilities vht beamform 'single-user-beamformee'
+set wireless wlan1 capabilities vht beamform 'single-user-beamformer'
+set wireless wlan1 capabilities vht center-channel-freq freq-1 '50'
+set wireless wlan1 capabilities vht channel-set-width '2'
+set wireless wlan1 channel '36'
+set wireless wlan1 enable-bf-protection
+set wireless wlan1 hw-id 'xx:xx:xx:xx:xx:xx'
+set wireless wlan1 mac 'yo:ur:ma:c0:ad:dr'
+set wireless wlan1 mgmt-frame-protection 'required'
+set wireless wlan1 mode 'ac'
+set wireless wlan1 physical-device 'phy0'
+set wireless wlan1 security wpa cipher 'CCMP'
+set wireless wlan1 security wpa cipher 'CCMP-256'
+set wireless wlan1 security wpa cipher 'GCMP'
+set wireless wlan1 security wpa cipher 'GCMP-256'
+set wireless wlan1 security wpa mode 'wpa3'
+set wireless wlan1 security wpa passphrase 'password'
+set wireless wlan1 ssid 'BPI-R4-5G'
+set wireless wlan1 stationary-ap
+set wireless wlan1 type 'access-point'
+set wireless wlan2 capabilities he antenna-pattern-fixed
+set wireless wlan2 capabilities he beamform multi-user-beamformer
+set wireless wlan2 capabilities he beamform single-user-beamformee
+set wireless wlan2 capabilities he beamform single-user-beamformer
+set wireless wlan2 capabilities he bss-color '13'
+set wireless wlan2 capabilities he center-channel-freq freq-1 '15'
+set wireless wlan2 capabilities he channel-set-width '134'
+set wireless wlan2 capabilities ht 40mhz-incapable
+set wireless wlan2 capabilities ht channel-set-width 'ht20'
+set wireless wlan2 capabilities ht channel-set-width 'ht40-'
+set wireless wlan2 capabilities ht channel-set-width 'ht40+'
+set wireless wlan2 capabilities ht short-gi '20'
+set wireless wlan2 capabilities ht short-gi '40'
+set wireless wlan2 capabilities ht stbc rx '2'
+set wireless wlan2 capabilities ht stbc tx
+set wireless wlan2 channel '5'
+set wireless wlan2 enable-bf-protection
+set wireless wlan2 hw-id 'xx:xx:xx:xx:xx:xx'
+set wireless wlan2 mac 'yo:ur:ma:c0:ad:dr'
+set wireless wlan2 mgmt-frame-protection 'required'
+set wireless wlan2 mode 'ax'
+set wireless wlan2 physical-device 'phy0'
+set wireless wlan2 security wpa cipher 'CCMP'
+set wireless wlan2 security wpa cipher 'CCMP-256'
+set wireless wlan2 security wpa cipher 'GCMP'
+set wireless wlan2 security wpa cipher 'GCMP-256'
+set wireless wlan2 security wpa mode 'wpa3'
+set wireless wlan2 security wpa passphrase 'password'
+set wireless wlan2 ssid 'BPI-R4-6G'
+set wireless wlan2 stationary-ap
+set wireless wlan2 type 'access-point'
+```

@@ -33,21 +33,13 @@ jobs:
         run: |
           bash scripts/build-all.sh
           echo "vyos_version=$(cat build/vyos_version)" >> $GITHUB_OUTPUT
-          files=$(ls build/*.img.gz | tr '\n' ' ')
-          echo "files=$files" >> $GITHUB_OUTPUT
-
-      - name: Generate unique release name
-        id: release_name
-        run: |
-          release_name="${{ steps.build.outputs.vyos_version }}-${{ github.ref_name }}"
-          echo "release_name=$release_name" >> $GITHUB_OUTPUT
 
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          name: ${{ steps.release_name.outputs.release_name }}
-          files: ${{ steps.build.outputs.files }}
+          name: ${{ steps.build.outputs.vyos_version }}-${{ github.ref_name }}
+          files: build/*.gz
           fail_on_unmatched_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
