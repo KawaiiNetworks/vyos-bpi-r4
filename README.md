@@ -78,6 +78,8 @@ Finally we get 2 img.gz in after build.
 
 ## How to USE
 
+Note: I set fixed local mac address for eth3/4/5/6 in the dtsi file because VyOS use mac address to identify interfaces. If you want to use your own mac address, please use `set interface ethernet ethX mac xx:xx:xx:xx:xx:xx` to change it after first boot.
+
 VyOS supports 2.4G/6G wifi6.
 
 a example configuration:
@@ -190,3 +192,27 @@ unpack it to /lib/live/mount/persistence/boot and change /lib/live/mount/persist
 show system image
 set system image default-boot YYYY.MM.DD-HHMM-rolling # will update the grub config but the os boots using u-boot
 ```
+
+## Flash u-boot to SPI Flash
+
+Please visit https://gist.github.com/BtbN/9e5878d83816fb49d51d1f76c42d7945#boot-method first.
+
+```bash
+# U-BOOT Shell:
+setenv bl2file bpi-r4_spim-nand_ubi_8GB_bl2.img
+run run wrspimnand
+```
+
+```bash
+# On VyOS or other linux
+apt install mtd-utils
+ubidetach -p /dev/mtd1
+ubiformat /dev/mtd1
+ubiattach -p /dev/mtd1
+ubimkvol /dev/ubi0 -N fip -s 4MiB -t static
+mkdir /tmp/p5
+mount /dev/mmcblk0p5 /tmp/p5
+ubiupdatevol /dev/ubi0_0 /tmp/p5/the_fip.bin
+```
+
+Now the u-boot on SPI flash cannot detect nvme SSD so it's no use.
