@@ -4,8 +4,12 @@ set -e
 
 # nowdir: $PROJECT_ROOT (vyos-bpi-r4)
 
-export kernel_version=$(make -C $PROJECT_ROOT/vyos-arm64-build/vyos-build/scripts/package-build/linux-kernel/linux kernelversion)
+cd $PROJECT_ROOT/vyos-arm64-build/vyos-build/scripts/package-build/linux-kernel/linux
+export kernel_version=$(make kernelversion)
+cd $PROJECT_ROOT
+echo "Kernel version: $kernel_version"
 
+echo "Updating kernel_version in $PROJECT_ROOT/build.conf ..."
 sed -i "s/^kernel_version=.*/kernel_version=$kernel_version/" $PROJECT_ROOT/build.conf
 
 bash $PROJECT_ROOT/scripts/set_kernel_version.sh
