@@ -11,6 +11,8 @@ Project dependencies:
 -   [BPI-Router-Linux](https://github.com/frank-w/BPI-Router-Linux)
 -   [u-boot for banana pi](https://github.com/frank-w/u-boot)
 
+This board is sponsored by [LCPU](https://github.com/lcpu-club).
+
 ## Prepare the build environment
 
 ```bash
@@ -174,4 +176,17 @@ set wireless wlan2 security wpa passphrase 'password'
 set wireless wlan2 ssid 'BPI-R4-6G'
 set wireless wlan2 stationary-ap
 set wireless wlan2 type 'access-point'
+```
+
+## Upgrade VyOS Version
+
+Go to the latest release page https://github.com/KawaiiNetworks/vyos-bpi-r4/releases/latest
+
+Then download the vyos-YYYY.MM.DD-HHMM-rolling.tar.gz
+
+unpack it to /lib/live/mount/persistence/boot and change /lib/live/mount/persistence/boot/vyos.txt to the new version.
+
+```vbash
+show system image
+set system image default-boot YYYY.MM.DD-HHMM-rolling # will update the grub config but the os boots using u-boot
 ```
