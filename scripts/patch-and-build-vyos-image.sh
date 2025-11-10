@@ -5,8 +5,7 @@ set -e
 # nowdir: $PROJECT_ROOT (vyos-bpi-r4)
 # this script should be run as root
 
-cd $PROJECT_ROOT/vyos-arm64-build/vyos-build
-# patch -p1 < $PROJECT_ROOT/patches/vyos-build/0014-add-vnstat-conf.patch # vnstat is not included
+cd $VYOS_BUILD_ROOT
 patch -p1 < $PROJECT_ROOT/patches/vyos-build/0015-add-nexttrace-repo.patch
 cp $PROJECT_ROOT/patches/vyos-build/9999-kawaii-networks-custom.chroot data/live-build-config/hooks/live/
 
@@ -23,7 +22,7 @@ echo $build_version > $PROJECT_ROOT/build/vyos_version
 #  --custom-package vnstat \
 
 ./build-vyos-image \
- --architecture arm64 \
+ --architecture amd64 \
  --version $build_version \
  --build-by "canoziia@projectk.org" \
  --custom-package bgpq4 \
@@ -38,3 +37,7 @@ echo $build_version > $PROJECT_ROOT/build/vyos_version
  --custom-package tree \
  --custom-package wget \
  generic
+
+ls -la $VYOS_BUILD_ROOT/build/
+
+mv $VYOS_BUILD_ROOT/build/*.iso $PROJECT_ROOT/build/

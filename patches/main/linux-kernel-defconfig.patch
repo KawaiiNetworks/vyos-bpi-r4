@@ -1,0 +1,28 @@
+diff --git a/scripts/package-build/linux-kernel/arch/x86/configs/vyos_defconfig b/scripts/package-build/linux-kernel/arch/x86/configs/vyos_defconfig
+index 87e89f2a..1e362243 100644
+--- a/scripts/package-build/linux-kernel/arch/x86/configs/vyos_defconfig
++++ b/scripts/package-build/linux-kernel/arch/x86/configs/vyos_defconfig
+@@ -2895,8 +2895,8 @@ CONFIG_ATH10K_USB=m
+ # CONFIG_ATH10K_TRACING is not set
+ CONFIG_ATH10K_DFS_CERTIFIED=y
+ # CONFIG_WCN36XX is not set
+-# CONFIG_ATH11K is not set
+-# CONFIG_ATH12K is not set
++CONFIG_ATH11K=m
++CONFIG_ATH12K=m
+ # CONFIG_WLAN_VENDOR_ATMEL is not set
+ CONFIG_WLAN_VENDOR_BROADCOM=y
+ CONFIG_B43=m
+@@ -2999,10 +2999,10 @@ CONFIG_MT7663_USB_SDIO_COMMON=m
+ CONFIG_MT7663U=m
+ CONFIG_MT7663S=m
+ CONFIG_MT7915E=m
+-# CONFIG_MT7921E is not set
++CONFIG_MT7921E=m
+ # CONFIG_MT7921S is not set
+ # CONFIG_MT7921U is not set
+-# CONFIG_MT7996E is not set
++CONFIG_MT7996E=m
+ CONFIG_WLAN_VENDOR_MICROCHIP=y
+ # CONFIG_WILC1000_SDIO is not set
+ CONFIG_WLAN_VENDOR_PURELIFI=y
