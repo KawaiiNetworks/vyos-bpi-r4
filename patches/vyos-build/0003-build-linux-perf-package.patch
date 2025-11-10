@@ -2,16 +2,6 @@ diff --git a/scripts/package/builddeb b/scripts/package/builddeb
 index 60cae3ea1caa..21e4873e4493 100755
 --- a/scripts/package/builddeb
 +++ b/scripts/package/builddeb
-@@ -100,6 +100,9 @@ install_linux_image () {
- 	fi
- 
- 	cp "${source_image_path}" "${pdir}/${installed_image_path}"
-+	if echo "${source_image_path}" | grep -qE '\.itb$'; then
-+		cp "${source_image_path}" "${pdir}/boot/vmlinuz-${KERNELRELEASE}"
-+	fi
- 
- 	# Install the maintainer scripts
- 	# Note: hook scripts under /etc/kernel are also executed by official Debian
 @@ -180,6 +183,14 @@ install_libc_headers () {
  	mv "$pdir/usr/include/asm" "$pdir/usr/include/${DEB_HOST_MULTIARCH}"
  }
