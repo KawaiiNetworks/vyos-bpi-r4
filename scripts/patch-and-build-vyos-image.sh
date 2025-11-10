@@ -6,7 +6,7 @@ set -e
 # this script should be run as root
 
 cd $VYOS_BUILD_ROOT
-patch -p1 < $PROJECT_ROOT/patches/vyos-build/0015-add-nexttrace-repo.patch
+patch -p1 < $PROJECT_ROOT/patches/vyos-build/0015-add-nexttrace-repo-amd64.patch
 cp $PROJECT_ROOT/patches/vyos-build/9999-kawaii-networks-custom.chroot data/live-build-config/hooks/live/
 
 export build_version=$(date +"%Y.%m.%d-%H%M-rolling")

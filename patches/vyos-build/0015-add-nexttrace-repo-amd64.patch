@@ -1,0 +1,16 @@
+diff --git a/data/architectures/amd64.toml b/data/architectures/amd64.toml
+index 2e83358f..3bda23e6 100644
+--- a/data/architectures/amd64.toml
++++ b/data/architectures/amd64.toml
+@@ -24,3 +24,11 @@ packages = [
+   architecture = "amd64"
+   url = "https://dl.cloudsmith.io/public/isc/kea-3-0/deb/debian"
+   distribution = "bookworm"
++
++[additional_repositories.nexttrace]
++  architecture = "amd64"
++  url = "https://github.com/nxtrace/nexttrace-debs/releases/latest/download"
++  distribution = "./"
++  components = ""
++  no_source = true
++  key = "mDMEaO7vHRYJKwYBBAHaRw8BAQdAXY+aVR+gfjDiaI1CQZXTiaOJI9ZOEziFVxQPheIyrDG0IW54dHJhY2Uub3JnIDxjb250YWN0QG54dHJhY2Uub3JnPoiTBBMWCgA7FiEEoqH7meOhHVsUbhcLNigaslezB/oFAmju7x0CGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQNigaslezB/rjdQD+JmXqnB3kmkKVQRfH7urC/zTkp2UkkLhUw+dykoCTggcBAK5qLKvUJN6Xu3TF0dEuBqVV9+14OkTbg4Ymaw7gUpEPuDgEaO7vHRIKKwYBBAGXVQEFAQEHQILPhsR2XsUYs7orwth28VQZRlXznHYsjCISbUb+UPgxAwEIB4h4BBgWCgAgFiEEoqH7meOhHVsUbhcLNigaslezB/oFAmju7x0CGwwACgkQNigaslezB/qHNwD/d3Yl/QhT/62Cghg575+XTEbnsrCIhazszdTd8NB4OFQA+wU421K4YjDrCAQy+C77YlRQ1pxFv3cYIMHn3H9qTEUM"
