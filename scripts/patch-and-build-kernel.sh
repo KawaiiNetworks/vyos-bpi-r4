@@ -15,5 +15,5 @@ patch -p1 < $PROJECT_ROOT/patches/main/linux-kernel-defconfig.patch
 cd $VYOS_BUILD_ROOT/scripts/package-build/linux-kernel
 ./build.py --packages linux-kernel
 
-ls -la ../*.deb
-mv ../*.deb $VYOS_BUILD_ROOT/packages/
+ls -la ./*.deb
+mv ./*.deb $VYOS_BUILD_ROOT/packages/
