@@ -41,4 +41,4 @@ echo $build_version > $PROJECT_ROOT/build/vyos_version
 
 ls -la $VYOS_BUILD_ROOT/build/
 
-mv $VYOS_BUILD_ROOT/build/*.iso $PROJECT_ROOT/build/
+mv $VYOS_BUILD_ROOT/build/vyos-${build_version}-generic-amd64.iso $PROJECT_ROOT/build/

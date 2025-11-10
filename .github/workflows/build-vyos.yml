@@ -39,9 +39,7 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           name: ${{ steps.build.outputs.vyos_version }}-${{ github.ref_name }}
-          files: |
-            build/*.gz
-            build/*.iso
+          files: build/vyos-${{ steps.build.outputs.vyos_version }}-generic-amd64.iso
           fail_on_unmatched_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
