@@ -1,0 +1,16 @@
+diff --git a/data/live-build-config/hooks/live/17-gen_initramfs.chroot b/data/live-build-config/hooks/live/17-gen_initramfs.chroot
+index 8071c6b8..f1f90ae9 100755
+--- a/data/live-build-config/hooks/live/17-gen_initramfs.chroot
++++ b/data/live-build-config/hooks/live/17-gen_initramfs.chroot
+@@ -20,4 +20,9 @@ kernel=`ls /boot | grep vmlinuz- | sed 's/vmlinuz-//g'`
+ 
+ echo "I: Executing update-initramfs -c -k $kernel"
+ 
+-update-initramfs -c -k $kernel
++# update-initramfs -c -k $kernel
++
++for k in $kernel; do
++    echo "I: Executing update-initramfs -c -k $k"
++    update-initramfs -c -k "$k"
++done
+\ No newline at end of file

@@ -7,6 +7,7 @@ set -e
 
 cd $VYOS_BUILD_ROOT
 patch -p1 < $PROJECT_ROOT/patches/vyos-build/0015-add-nexttrace-repo-amd64.patch
+patch -p1 < $PROJECT_ROOT/patches/vyos-build/9998-initramfs-tmp-fix.patch
 cp $PROJECT_ROOT/patches/vyos-build/9999-kawaii-networks-custom.chroot data/live-build-config/hooks/live/
 
 export build_version=$(date +"%Y.%m.%d-%H%M-rolling")
