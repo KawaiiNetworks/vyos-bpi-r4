@@ -1,12 +1,8 @@
 diff --git a/scripts/package-build/linux-kernel/build-jool.py b/scripts/package-build/linux-kernel/build-jool.py
-index 3d2c3d6a..a20c2bc6 100755
+index 3d2c3d6a..fccc2c0a 100755
 --- a/scripts/package-build/linux-kernel/build-jool.py
 +++ b/scripts/package-build/linux-kernel/build-jool.py
-@@ -31,14 +31,14 @@ arch: str = find_arch()
- defaults_file: str = Path('../../../data/defaults.toml').read_text()
- KERNEL_VER: str = toml_loads(defaults_file).get('kernel_version')
- KERNEL_FLAVOR: str = toml_loads(defaults_file).get('kernel_flavor')
- KERNEL_SRC: str = Path.cwd().as_posix() + '/linux'
+@@ -35,10 +35,10 @@ KERNEL_SRC: str = Path.cwd().as_posix() + '/linux'
  
  # define variables
  PACKAGE_NAME: str = 'jool'
