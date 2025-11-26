@@ -69,3 +69,5 @@ with open(
         "uuid5-00000000-0000-0000-0000-000000000000", version_uuid
     )
     f.write(defaults_autoload)
+
+os.system(f"cp {PROJECT_ROOT}/vyos-arm64-build/vyos-build/build/img/{MOUNT_P6}/boot/grub/grub.cfg.d/vyos-versions/{build_version}.cfg {PROJECT_ROOT}/vyos-arm64-build/vyos-build/build/img/{MOUNT_P6}/boot/{build_version}/")
