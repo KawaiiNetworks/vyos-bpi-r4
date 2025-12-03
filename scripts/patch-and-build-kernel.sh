@@ -9,9 +9,9 @@ bash scripts/patch-vyos-build-from-huihuimoe.sh
 
 # clone kernel
 cd vyos-arm64-build/vyos-build/scripts/package-build/linux-kernel
-git clone --branch 6.17-main --single-branch https://github.com/frank-w/BPI-Router-Linux linux
+git clone --branch 6.18-main --single-branch https://github.com/frank-w/BPI-Router-Linux linux
 cd linux
-git branch -m 6.17-vyos
+git branch -m 6.18-vyos
 
 # apply patches
 
