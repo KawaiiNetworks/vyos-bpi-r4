@@ -1,0 +1,2 @@
+vyosversion=
+extracmdline=pcie_aspm=off

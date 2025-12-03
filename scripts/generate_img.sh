@@ -51,7 +51,11 @@ wget https://github.com/KawaiiNetworks/u-boot-bpi-r4/releases/latest/download/bp
 wget https://github.com/KawaiiNetworks/u-boot-bpi-r4/releases/latest/download/bpi-r4_spim-nand_ubi_fip.bin -P "$MOUNT_P5/"
 
 cp $PROJECT_ROOT/data/vyos.txt "$MOUNT_P6/boot/"
-echo "vyosversion=$build_version" >> "$MOUNT_P6/boot/vyos.txt"
+if grep -q "^vyosversion=" "$MOUNT_P6/boot/vyos.txt"; then
+    sed -i "s/^vyosversion=.*/vyosversion=$build_version/" "$MOUNT_P6/boot/vyos.txt"
+else
+    echo "vyosversion=$build_version" >> "$MOUNT_P6/boot/vyos.txt"
+fi
 cp $PROJECT_ROOT/data/persistence.conf "$MOUNT_P6/"
 cp -a ../chroot/boot/* "$MOUNT_P6/boot/$build_version/"
 mkimage -A arm64 -T ramdisk -C none -d "$MOUNT_P6/boot/$build_version/initrd.img-$kernel_version-vyos" "$MOUNT_P6/boot/$build_version/uInitrd"

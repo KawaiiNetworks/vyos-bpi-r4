@@ -188,6 +188,9 @@ Then download the vyos-YYYY.MM.DD-HHMM-rolling.tar.gz
 
 unpack it to /lib/live/mount/persistence/boot and change /lib/live/mount/persistence/boot/vyos.txt to the new version.
 
+copy `/lib/live/mount/persistence/boot/OLD/rw/opt/vyatta/etc/config` to `/lib/live/mount/persistence/boot/NEW/rw/opt/vyatta/etc/config`
+copy `/lib/live/mount/persistence/boot/OLD/rw/etc/ssh/` to `/lib/live/mount/persistence/boot/NEW/rw/etc/ssh/`
+
 ```vbash
 show system image
 set system image default-boot YYYY.MM.DD-HHMM-rolling # will update the grub config but the os boots using u-boot
@@ -216,3 +219,10 @@ ubiupdatevol /dev/ubi0_0 /tmp/p5/the_fip.bin
 ```
 
 Now the u-boot on SPI flash cannot detect nvme SSD so it's no use.
+
+## How to get defconfig
+
+```bash
+bash $PROJECT_ROOT/scripts/merge_config.sh -m --always-enable ../build/.config ../arch/arm64/configs/vyos_defconfig
+bash $PROJECT_ROOT/scripts/merge_config.sh -m --always-enable .config data/config_overrides
+```
