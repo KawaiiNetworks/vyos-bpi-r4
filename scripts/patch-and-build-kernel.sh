@@ -19,7 +19,7 @@ git branch -m 6.18-vyos
 patch -p1 < $PROJECT_ROOT/patches/vyos-build/0001-linkstate-ip-device-attribute.patch
 patch -p1 < $PROJECT_ROOT/patches/vyos-build/0002-inotify-support-for-stackable-filesystems.patch
 patch -p1 < $PROJECT_ROOT/patches/vyos-build/0003-build-linux-perf-package.patch
-patch -p1 < $PROJECT_ROOT/vyos-arm64-build/vyos-build/scripts/package-build/linux-kernel/patches/kernel/v4-0001-nft_ct-Added-nfct_seqadj_ext_add-for-DNAT-ed-conn.patch
+# patch -p1 < $PROJECT_ROOT/vyos-arm64-build/vyos-build/scripts/package-build/linux-kernel/patches/kernel/v4-0001-nft_ct-Added-nfct_seqadj_ext_add-for-DNAT-ed-conn.patch # this patch is already included in 6.18-main
 
 
 # these patches are authored by kawaii networks
