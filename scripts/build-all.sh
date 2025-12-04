@@ -10,6 +10,9 @@ echo "Cloning vyos-arm64-build and vyos-build repositories..."
 git clone https://github.com/huihuimoe/vyos-arm64-build
 git clone https://github.com/vyos/vyos-build vyos-arm64-build/vyos-build
 
+echo "Building radvd package..."
+bash scripts/patch-and-build-radvd.sh
+
 echo "Building vyos-1x package..."
 bash scripts/patch-and-build-vyos-1x.sh
 rm -rf $PROJECT_ROOT/vyos-arm64-build/vyos-build/scripts/package-build/vyos-1x
