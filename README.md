@@ -18,7 +18,7 @@ This board is sponsored by [LCPU](https://github.com/lcpu-club).
 ```bash
 git clone https://github.com/KawaiiNetworks/vyos-bpi-r4
 cd vyos-bpi-r4
-git checkout bpi-r4-6.17
+git checkout 6.18-main
 
 docker run -it --privileged --sysctl net.ipv6.conf.lo.disable_ipv6=0 -v $(pwd):/vyos -w /vyos ghcr.io/kawaiinetworks/vyos-bpi-r4:builder bash
 ```
