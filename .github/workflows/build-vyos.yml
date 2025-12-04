@@ -3,7 +3,7 @@ name: Build and Release VyOS
 on:
   push:
     tags:
-      - "*-main"
+      - "*-main*"
   workflow_dispatch:
     inputs:
       ref:
