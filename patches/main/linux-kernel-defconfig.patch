@@ -1,7 +1,16 @@
 diff --git a/scripts/package-build/linux-kernel/arch/x86/configs/vyos_defconfig b/scripts/package-build/linux-kernel/arch/x86/configs/vyos_defconfig
-index 87e89f2a..1e362243 100644
+index 87e89f2a..910ba298 100644
 --- a/scripts/package-build/linux-kernel/arch/x86/configs/vyos_defconfig
 +++ b/scripts/package-build/linux-kernel/arch/x86/configs/vyos_defconfig
+@@ -959,7 +959,7 @@ CONFIG_COREDUMP=y
+ #
+ # Memory Management options
+ #
+-# CONFIG_SWAP is not set
++CONFIG_SWAP=y
+ 
+ #
+ # SLAB allocator options
 @@ -2895,8 +2895,8 @@ CONFIG_ATH10K_USB=m
  # CONFIG_ATH10K_TRACING is not set
  CONFIG_ATH10K_DFS_CERTIFIED=y
