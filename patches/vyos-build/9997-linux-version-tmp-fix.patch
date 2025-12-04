@@ -1,0 +1,23 @@
+diff --git a/scripts/package-build/linux-kernel/build.py b/scripts/package-build/linux-kernel/build.py
+index 9d105228..f473223c 100755
+--- a/scripts/package-build/linux-kernel/build.py
++++ b/scripts/package-build/linux-kernel/build.py
+@@ -194,12 +194,13 @@ def merge_dicts(defaults, package):
+ def build_kernel(kernel_version):
+     """Build the Linux kernel"""
+     run(['gpg2', '--locate-keys', 'torvalds@kernel.org', 'gregkh@kernel.org'], check=True)
+-    run(['curl', '-OL', f'https://www.kernel.org/pub/linux/kernel/v6.x/linux-{kernel_version}.tar.xz'], check=True)
+-    run(['curl', '-OL', f'https://www.kernel.org/pub/linux/kernel/v6.x/linux-{kernel_version}.tar.sign'], check=True)
++    run(['curl', '-OL', f'https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.18.tar.xz'], check=True)
++    run(['curl', '-OL', f'https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.18.tar.sign'], check=True)
+     # Using pipes to handle decompression and verification
+-    with subprocess.Popen(['xz', '-cd', f'linux-{kernel_version}.tar.xz'], stdout=subprocess.PIPE) as proc_xz:
+-        run(['gpg2', '--verify', f'linux-{kernel_version}.tar.sign', '-'], stdin=proc_xz.stdout, check=True)
+-    run(['tar', 'xf', f'linux-{kernel_version}.tar.xz'], check=True)
++    with subprocess.Popen(['xz', '-cd', f'linux-6.18.tar.xz'], stdout=subprocess.PIPE) as proc_xz:
++        run(['gpg2', '--verify', f'linux-6.18.tar.sign', '-'], stdin=proc_xz.stdout, check=True)
++    run(['tar', 'xf', f'linux-6.18.tar.xz'], check=True)
++    os.system(f"mv linux-6.18 linux-{kernel_version}")
+     os.symlink(f'linux-{kernel_version}', 'linux')
+     run(['./build-kernel.sh'], check=True)
+ 
