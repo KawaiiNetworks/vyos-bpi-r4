@@ -13,4 +13,4 @@ patch --no-backup-if-mismatch -p1 -d $VYOS_BUILD_ROOT/scripts/package-build/vyos
 cd $VYOS_BUILD_ROOT/scripts/package-build/vyos-1x
 ./build.py
 ls -la *.deb
-mv *.deb $PROJECT_ROOT/vyos-arm64-build/vyos-build/packages/
+mv *.deb $VYOS_BUILD_ROOT/packages/
