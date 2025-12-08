@@ -10,6 +10,9 @@ sudo apt-get update
 echo "Cloning vyos-build repositories..."
 git clone https://github.com/vyos/vyos-build
 
+bash scripts/patch-and-build-vyos-1x.sh
+
+
 echo "Building kernel and related packages..."
 bash scripts/patch-and-build-kernel.sh
 bash scripts/patch-and-build-kernel-related-packages.sh
