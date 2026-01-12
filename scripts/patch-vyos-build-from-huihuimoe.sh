@@ -21,4 +21,3 @@ patch --no-backup-if-mismatch -p1 -d vyos-build < data/vyos-build-005-add_vim_li
 # sign kernel module but donot sign vmlinuz
 patch --no-backup-if-mismatch -p1 -d vyos-build < data/vyos-build-007-no_sbsign.patch
 patch --no-backup-if-mismatch -p1 -d vyos-build < data/vyos-build-008-fix_live_boot_initramfs_link.patch
-patch --no-backup-if-mismatch -p1 -d vyos-build < data/vyos-build-009-live_boot_serial_console_device.patch
