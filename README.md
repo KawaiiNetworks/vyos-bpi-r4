@@ -44,37 +44,13 @@ Note: Many steps in this script are excerpted from huihuimoe/vyos-arm64-build Gi
 bash scripts/patch-and-build-vyos-1x.sh
 ```
 
-## Patch and build Linux Kernel and related packages
-
-Patch and build linux kernel
+## Build All
 
 ```bash
-bash scripts/patch-and-build-kernel.sh
+bash scripts/build-all.sh
 ```
 
-Patch and build linux kernel related packages:
-
-linux-firmware qat igb ixgbe ixgbevf jool nat-rtsp ovpn-dco (seems that accel-ppp-ng is not required)
-
-```bash
-bash scripts/patch-and-build-kernel-related-packages.sh
-```
-
-## Build VyOS image
-
-```bash
-sudo -E bash scripts/patch-and-build-vyos-image.sh
-```
-
-English: Now we have obtained an iso file, but the iso file is not usable. What we need is just the filesystem.squashfs file inside it.
-
-## Make SD Card Image
-
-```bash
-sudo -E bash scripts/generate_img.sh
-```
-
-Finally we get 2 img.gz in after build.
+Finally we get 2 img.gz and a tar.gz after build.
 
 ## How to USE
 
@@ -190,6 +166,7 @@ unpack it to /lib/live/mount/persistence/boot and change /lib/live/mount/persist
 
 copy `/lib/live/mount/persistence/boot/OLD/rw/opt/vyatta/etc/config` to `/lib/live/mount/persistence/boot/NEW/rw/opt/vyatta/etc/config`
 copy `/lib/live/mount/persistence/boot/OLD/rw/etc/ssh/` to `/lib/live/mount/persistence/boot/NEW/rw/etc/ssh/`
+copy `/lib/live/mount/persistence/boot/NEW/NEW.cfg` to `/lib/live/mount/persistence/boot/grub/grub.cfg.d/vyos-versions/`
 
 ```vbash
 show system image
