@@ -4,12 +4,12 @@ This project is a personal learning project, mainly aimed at porting the VyOS to
 
 Project dependencies:
 
--   [vyos-1x](https://github.com/vyos/vyos-1x)
--   [vyos-build](https://github.com/vyos/vyos-build)
--   [vyos-arm64-build](https://github.com/huihuimoe/vyos-arm64-build)
--   [vyos-arm64-autobuild](https://github.com/KawaiiNetworks/vyos-arm64-autobuild)
--   [BPI-Router-Linux](https://github.com/frank-w/BPI-Router-Linux)
--   [u-boot for banana pi](https://github.com/frank-w/u-boot)
+- [vyos-1x](https://github.com/vyos/vyos-1x)
+- [vyos-build](https://github.com/vyos/vyos-build)
+- [vyos-arm64-build](https://github.com/huihuimoe/vyos-arm64-build)
+- [vyos-arm64-autobuild](https://github.com/KawaiiNetworks/vyos-arm64-autobuild)
+- [BPI-Router-Linux](https://github.com/frank-w/BPI-Router-Linux)
+- [u-boot for banana pi](https://github.com/frank-w/u-boot)
 
 This board is sponsored by [LCPU](https://github.com/lcpu-club).
 
@@ -23,34 +23,77 @@ git checkout 6.18-bpi-r4
 docker run -it --privileged --sysctl net.ipv6.conf.lo.disable_ipv6=0 -v $(pwd):/vyos -w /vyos ghcr.io/kawaiinetworks/vyos-bpi-r4:builder bash
 ```
 
-In the container (we assume that the current user is not root):
+## Build
 
-```bash
-export PROJECT_ROOT=$(pwd)
+You can build all in one script, or build step by step following the content of `build-all.sh`.
 
-sudo apt update
-# sudo apt-get install -y gcc-aarch64-linux-gnu u-boot-tools bc make gcc ccache libc6-dev libncurses5-dev libssl-dev bison flex device-tree-compiler libelf-dev kmod libdw-dev libdebuginfod-dev systemtap-sdt-dev libunwind-dev libslang2-dev libperl-dev python3-dev python3 llvm-dev libzstd-dev libnuma-dev libbabeltrace-ctf-dev libcapstone-dev libpfm4-dev libtraceevent-dev libtracefs-dev default-jdk clang binutils-dev libcap-dev libbpf-dev asciidoc xmlto u-boot-tools
-
-git clone https://github.com/huihuimoe/vyos-arm64-build
-cd $PROJECT_ROOT/vyos-arm64-build
-git clone https://github.com/vyos/vyos-build
-```
-
-## Patch and build vyos-1x
-
-Note: Many steps in this script are excerpted from huihuimoe/vyos-arm64-build GitHub workflows.
-
-```bash
-bash scripts/patch-and-build-vyos-1x.sh
-```
-
-## Build All
+### Build All
 
 ```bash
 bash scripts/build-all.sh
 ```
 
-Finally we get 2 img.gz and a tar.gz after build.
+### Build Step by Step
+
+- Prepare
+
+  In the container (we assume that the current user is not root):
+
+  ```bash
+  export PROJECT_ROOT=$(pwd)
+
+  sudo apt update
+  # sudo apt-get install -y gcc-aarch64-linux-gnu u-boot-tools bc make gcc ccache libc6-dev libncurses5-dev libssl-dev bison flex device-tree-compiler libelf-dev kmod libdw-dev libdebuginfod-dev systemtap-sdt-dev libunwind-dev libslang2-dev libperl-dev python3-dev python3 llvm-dev libzstd-dev libnuma-dev libbabeltrace-ctf-dev libcapstone-dev libpfm4-dev libtraceevent-dev libtracefs-dev default-jdk clang binutils-dev libcap-dev libbpf-dev asciidoc xmlto u-boot-tools
+
+  git clone https://github.com/huihuimoe/vyos-arm64-build
+  git clone https://github.com/vyos/vyos-build vyos-arm64-build/vyos-build
+  ```
+
+- Build radvd
+
+  ```bash
+  bash scripts/patch-and-build-radvd.sh
+  ```
+
+- Patch and build vyos-1x
+
+  Note: Many steps in this script are excerpted from huihuimoe/vyos-arm64-build GitHub workflows.
+
+  ```bash
+  bash scripts/patch-and-build-vyos-1x.sh
+  ```
+
+- Patch and build Linux Kernel and related packages
+
+  Patch and build linux kernel
+
+  ```bash
+  bash scripts/patch-and-build-kernel.sh
+  ```
+
+  Patch and build linux kernel related packages:
+
+  linux-firmware qat igb ixgbe ixgbevf jool nat-rtsp ovpn-dco (seems that accel-ppp-ng is not required)
+
+  ```bash
+  bash scripts/patch-and-build-kernel-related-packages.sh
+  ```
+
+- Build VyOS image
+
+  ```bash
+  sudo -E bash scripts/patch-and-build-vyos-image.sh
+  ```
+
+  English: Now we have obtained an iso file, but the iso file is not usable. What we need is just the filesystem.squashfs file inside it.
+
+- Make SD Card Image
+
+  ```bash
+  sudo -E bash scripts/generate_img.sh
+  ```
+
+  Finally we get 2 img.gz and a tar.gz after build.
 
 ## How to USE
 
