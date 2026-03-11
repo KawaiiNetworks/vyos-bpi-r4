@@ -1,8 +1,6 @@
-diff --git a/scripts/package-build/linux-kernel/config/arm64/vyos_defconfig b/scripts/package-build/linux-kernel/config/arm64/vyos_defconfig
-index e9eedeb2..ff13e85a 100644
---- a/scripts/package-build/linux-kernel/config/arm64/vyos_defconfig
-+++ b/scripts/package-build/linux-kernel/config/arm64/vyos_defconfig
-@@ -97,10 +97,11 @@ CONFIG_ARCH_WANT_DEFAULT_BPF_JIT=y
+--- a/scripts/package-build/linux-kernel/config/arm64/vyos_defconfig	2026-03-11 20:04:33.080310029 +0800
++++ b/scripts/package-build/linux-kernel/config/arm64/vyos_defconfig	2026-03-11 20:08:03.480415559 +0800
+@@ -97,10 +97,11 @@
  #
  CONFIG_BPF_SYSCALL=y
  CONFIG_BPF_JIT=y
@@ -16,7 +14,7 @@ index e9eedeb2..ff13e85a 100644
  # end of BPF subsystem
  
  CONFIG_PREEMPT_BUILD=y
-@@ -172,20 +173,24 @@ CONFIG_PAGE_COUNTER=y
+@@ -172,20 +173,24 @@
  # CONFIG_CGROUP_FAVOR_DYNMODS is not set
  CONFIG_MEMCG=y
  CONFIG_MEMCG_KMEM=y
@@ -48,7 +46,7 @@ index e9eedeb2..ff13e85a 100644
  # CONFIG_CGROUP_DEBUG is not set
  CONFIG_SOCK_CGROUP_DATA=y
  CONFIG_NAMESPACES=y
-@@ -195,17 +200,17 @@ CONFIG_IPC_NS=y
+@@ -195,17 +200,17 @@
  CONFIG_USER_NS=y
  CONFIG_PID_NS=y
  CONFIG_NET_NS=y
@@ -72,7 +70,7 @@ index e9eedeb2..ff13e85a 100644
  CONFIG_RD_ZSTD=y
  # CONFIG_BOOT_CONFIG is not set
  CONFIG_INITRAMFS_PRESERVE_MTIME=y
-@@ -303,49 +308,50 @@ CONFIG_BUILTIN_RETURN_ADDRESS_STRIPS_PAC=y
+@@ -303,49 +308,50 @@
  #
  # Platform selection
  #
@@ -145,7 +143,7 @@ index e9eedeb2..ff13e85a 100644
  # end of Platform selection
  
  #
-@@ -636,17 +642,20 @@ CONFIG_ARCH_SUPPORTS_ACPI=y
+@@ -636,17 +642,20 @@
  CONFIG_ACPI=y
  CONFIG_ACPI_GENERIC_GSI=y
  CONFIG_ACPI_CCA_REQUIRED=y
@@ -171,7 +169,7 @@ index e9eedeb2..ff13e85a 100644
  CONFIG_ACPI_PROCESSOR_IDLE=y
  CONFIG_ACPI_MCFG=y
  CONFIG_ACPI_CPPC_LIB=y
-@@ -654,6 +663,8 @@ CONFIG_ACPI_PROCESSOR=y
+@@ -654,6 +663,8 @@
  CONFIG_ACPI_IPMI=m
  CONFIG_ACPI_HOTPLUG_CPU=y
  CONFIG_ACPI_THERMAL=m
@@ -180,7 +178,7 @@ index e9eedeb2..ff13e85a 100644
  CONFIG_ARCH_HAS_ACPI_TABLE_UPGRADE=y
  CONFIG_ACPI_TABLE_UPGRADE=y
  # CONFIG_ACPI_DEBUG is not set
-@@ -667,7 +678,7 @@ CONFIG_ACPI_REDUCED_HARDWARE_ONLY=y
+@@ -667,7 +678,7 @@
  CONFIG_ACPI_NFIT=m
  # CONFIG_NFIT_SECURITY_DEBUG is not set
  CONFIG_ACPI_NUMA=y
@@ -189,7 +187,7 @@ index e9eedeb2..ff13e85a 100644
  CONFIG_HAVE_ACPI_APEI=y
  CONFIG_ACPI_APEI=y
  CONFIG_ACPI_APEI_GHES=y
-@@ -675,20 +686,42 @@ CONFIG_ACPI_APEI_PCIEAER=y
+@@ -675,20 +686,42 @@
  CONFIG_ACPI_APEI_SEA=y
  CONFIG_ACPI_APEI_MEMORY_FAILURE=y
  # CONFIG_ACPI_APEI_EINJ is not set
@@ -239,7 +237,7 @@ index e9eedeb2..ff13e85a 100644
  
  #
  # General architecture-dependent options
-@@ -860,16 +893,17 @@ CONFIG_BLK_SED_OPAL=y
+@@ -860,16 +893,17 @@
  CONFIG_PARTITION_ADVANCED=y
  # CONFIG_ACORN_PARTITION is not set
  # CONFIG_AIX_PARTITION is not set
@@ -262,16 +260,7 @@ index e9eedeb2..ff13e85a 100644
  # CONFIG_SGI_PARTITION is not set
  # CONFIG_ULTRIX_PARTITION is not set
  # CONFIG_SUN_PARTITION is not set
-@@ -927,7 +961,7 @@ CONFIG_COREDUMP=y
- #
- # Memory Management options
- #
--# CONFIG_SWAP is not set
-+CONFIG_SWAP=y
- 
- #
- # SLAB allocator options
-@@ -1390,10 +1424,10 @@ CONFIG_IP_VS_LBLC=m
+@@ -1038,10 +1072,10 @@
  CONFIG_IP_VS_LBLCR=m
  CONFIG_IP_VS_DH=m
  CONFIG_IP_VS_SH=m
@@ -284,7 +273,7 @@ index e9eedeb2..ff13e85a 100644
  
  #
  # IPVS SH scheduler
-@@ -1789,14 +1823,16 @@ CONFIG_PCI_MSI=y
+@@ -1437,14 +1471,16 @@
  CONFIG_PCI_QUIRKS=y
  # CONFIG_PCI_DEBUG is not set
  CONFIG_PCI_REALLOC_ENABLE_AUTO=y
@@ -303,7 +292,7 @@ index e9eedeb2..ff13e85a 100644
  CONFIG_PCI_LABEL=y
  CONFIG_PCI_HYPERV=m
  # CONFIG_PCI_DYNAMIC_OF_NODES is not set
-@@ -1805,10 +1841,11 @@ CONFIG_PCIE_BUS_DEFAULT=y
+@@ -1453,10 +1489,11 @@
  # CONFIG_PCIE_BUS_SAFE is not set
  # CONFIG_PCIE_BUS_PERFORMANCE is not set
  # CONFIG_PCIE_BUS_PEER2PEER is not set
@@ -317,7 +306,7 @@ index e9eedeb2..ff13e85a 100644
  CONFIG_HOTPLUG_PCI_CPCI=y
  CONFIG_HOTPLUG_PCI_SHPC=y
  
-@@ -1816,65 +1853,110 @@ CONFIG_HOTPLUG_PCI_SHPC=y
+@@ -1464,65 +1501,110 @@
  # PCI controller drivers
  #
  CONFIG_PCI_AARDVARK=y
@@ -385,10 +374,6 @@ index e9eedeb2..ff13e85a 100644
 -# CONFIG_PCI_HISI is not set
 -# CONFIG_PCIE_KIRIN is not set
 -# CONFIG_PCIE_HISI_STB is not set
--CONFIG_PCIE_ARMADA_8K=y
--# CONFIG_PCIE_DW_PLAT_HOST is not set
--# CONFIG_PCIE_QCOM is not set
--# CONFIG_PCIE_ROCKCHIP_DW_HOST is not set
 +CONFIG_PCIE_DW=y
 +CONFIG_PCIE_DW_HOST=y
 +CONFIG_PCIE_DW_EP=y
@@ -405,7 +390,10 @@ index e9eedeb2..ff13e85a 100644
 +CONFIG_PCIE_KEEMBAY=y
 +CONFIG_PCIE_KEEMBAY_HOST=y
 +CONFIG_PCIE_KEEMBAY_EP=y
-+CONFIG_PCIE_ARMADA_8K=y
+ CONFIG_PCIE_ARMADA_8K=y
+-# CONFIG_PCIE_DW_PLAT_HOST is not set
+-# CONFIG_PCIE_QCOM is not set
+-# CONFIG_PCIE_ROCKCHIP_DW_HOST is not set
 +CONFIG_PCIE_TEGRA194=m
 +CONFIG_PCIE_TEGRA194_HOST=m
 +CONFIG_PCIE_TEGRA194_EP=m
@@ -452,7 +440,7 @@ index e9eedeb2..ff13e85a 100644
  # end of PCI switch controller drivers
  
  # CONFIG_CXL_BUS is not set
-@@ -1885,11 +1967,12 @@ CONFIG_PCI_XGENE_MSI=y
+@@ -1533,11 +1615,12 @@
  # Generic Driver Options
  #
  CONFIG_AUXILIARY_BUS=y
@@ -468,7 +456,7 @@ index e9eedeb2..ff13e85a 100644
  CONFIG_PREVENT_FIRMWARE_BUILD=y
  
  #
-@@ -1902,9 +1985,11 @@ CONFIG_FW_LOADER_SYSFS=y
+@@ -1550,9 +1633,11 @@
  CONFIG_EXTRA_FIRMWARE=""
  CONFIG_FW_LOADER_USER_HELPER=y
  # CONFIG_FW_LOADER_USER_HELPER_FALLBACK is not set
@@ -482,7 +470,7 @@ index e9eedeb2..ff13e85a 100644
  # end of Firmware loader
  
  CONFIG_WANT_DEV_COREDUMP=y
-@@ -1932,20 +2017,26 @@ CONFIG_GENERIC_ARCH_NUMA=y
+@@ -1580,20 +1665,26 @@
  #
  # Bus devices
  #
@@ -518,7 +506,7 @@ index e9eedeb2..ff13e85a 100644
  # end of Bus devices
  
  #
-@@ -1997,27 +2088,29 @@ CONFIG_TURRIS_MOX_RWTM=m
+@@ -1645,27 +1736,29 @@
  #
  CONFIG_EFI_ESRT=y
  CONFIG_EFI_VARS_PSTORE=m
@@ -555,7 +543,7 @@ index e9eedeb2..ff13e85a 100644
  CONFIG_MESON_SM=y
  CONFIG_ARM_PSCI_FW=y
  # CONFIG_ARM_PSCI_CHECKER is not set
-@@ -2059,7 +2152,17 @@ CONFIG_BLK_DEV=y
+@@ -1707,7 +1800,17 @@
  CONFIG_BLK_DEV_NULL_BLK=m
  CONFIG_CDROM=m
  # CONFIG_BLK_DEV_PCIESSD_MTIP32XX is not set
@@ -574,7 +562,7 @@ index e9eedeb2..ff13e85a 100644
  CONFIG_BLK_DEV_LOOP=m
  CONFIG_BLK_DEV_LOOP_MIN_COUNT=8
  # CONFIG_BLK_DEV_DRBD is not set
-@@ -3363,34 +3466,51 @@ CONFIG_SERIAL_8250_TEGRA=y
+@@ -3002,34 +3105,51 @@
  #
  # Non-8250 serial port support
  #
@@ -636,7 +624,7 @@ index e9eedeb2..ff13e85a 100644
  # end of Serial drivers
  
  CONFIG_SERIAL_MCTRL_GPIO=y
-@@ -3530,49 +3650,66 @@ CONFIG_I2C_SCMI=m
+@@ -3169,49 +3289,66 @@
  #
  # I2C system bus drivers (mostly embedded / system-on-chip)
  #
@@ -731,7 +719,7 @@ index e9eedeb2..ff13e85a 100644
  CONFIG_I2C_ROBOTFUZZ_OSIF=m
  CONFIG_I2C_TAOS_EVM=m
  CONFIG_I2C_TINY_USB=m
-@@ -3582,8 +3719,9 @@ CONFIG_I2C_VIPERBOARD=m
+@@ -3221,8 +3358,9 @@
  # Other I2C/SMBus bus drivers
  #
  CONFIG_I2C_MLXCPLD=m
@@ -743,7 +731,7 @@ index e9eedeb2..ff13e85a 100644
  # end of I2C Hardware Bus support
  
  CONFIG_I2C_STUB=m
-@@ -4504,10 +4642,28 @@ CONFIG_REGULATOR_TPS65132=m
+@@ -4143,10 +4281,28 @@
  #
  CONFIG_APERTURE_HELPERS=y
  CONFIG_VIDEO_CMDLINE=y
@@ -775,7 +763,7 @@ index e9eedeb2..ff13e85a 100644
  # CONFIG_DRM_DEBUG_MM is not set
  CONFIG_DRM_KMS_HELPER=y
  # CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS is not set
-@@ -4515,56 +4671,193 @@ CONFIG_DRM_KMS_HELPER=y
+@@ -4154,56 +4310,193 @@
  CONFIG_DRM_FBDEV_EMULATION=y
  CONFIG_DRM_FBDEV_OVERALLOC=100
  # CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM is not set
@@ -996,7 +984,7 @@ index e9eedeb2..ff13e85a 100644
  # end of Display Panels
  
  CONFIG_DRM_BRIDGE=y
-@@ -4573,74 +4866,92 @@ CONFIG_DRM_PANEL_BRIDGE=y
+@@ -4212,74 +4505,92 @@
  #
  # Display Interface Bridges
  #
@@ -1147,7 +1135,7 @@ index e9eedeb2..ff13e85a 100644
  # CONFIG_DRM_LEGACY is not set
  CONFIG_DRM_PANEL_ORIENTATION_QUIRKS=y
  
-@@ -4656,7 +4967,7 @@ CONFIG_FB=y
+@@ -4295,7 +4606,7 @@
  # CONFIG_FB_ASILIANT is not set
  # CONFIG_FB_IMSTT is not set
  # CONFIG_FB_UVESA is not set
@@ -1156,7 +1144,7 @@ index e9eedeb2..ff13e85a 100644
  # CONFIG_FB_OPENCORES is not set
  # CONFIG_FB_S1D13XXX is not set
  # CONFIG_FB_NVIDIA is not set
-@@ -4672,44 +4983,63 @@ CONFIG_FB_EFI=y
+@@ -4311,44 +4622,63 @@
  # CONFIG_FB_NEOMAGIC is not set
  # CONFIG_FB_KYRO is not set
  # CONFIG_FB_3DFX is not set
@@ -1234,7 +1222,7 @@ index e9eedeb2..ff13e85a 100644
  #
  # Console display driver support
  #
-@@ -4893,43 +5223,53 @@ CONFIG_USB_AUTOSUSPEND_DELAY=2
+@@ -4532,43 +4862,53 @@
  #
  # USB Host Controller Drivers
  #
@@ -1303,7 +1291,7 @@ index e9eedeb2..ff13e85a 100644
  
  #
  # NOTE: USB_STORAGE depends on SCSI but BLK_DEV_SD may
-@@ -4940,37 +5280,112 @@ CONFIG_USB_WDM=m
+@@ -4579,37 +4919,112 @@
  #
  CONFIG_USB_STORAGE=m
  # CONFIG_USB_STORAGE_DEBUG is not set
@@ -1350,10 +1338,6 @@ index e9eedeb2..ff13e85a 100644
  #
 -# CONFIG_USB_CDNS_SUPPORT is not set
 -# CONFIG_USB_MUSB_HDRC is not set
--CONFIG_USB_DWC3=m
--CONFIG_USB_DWC2=m
--CONFIG_USB_CHIPIDEA=m
--# CONFIG_USB_ISP1760 is not set
 +CONFIG_USB_CDNS_SUPPORT=m
 +CONFIG_USB_CDNS_HOST=y
 +CONFIG_USB_CDNS3=m
@@ -1384,7 +1368,7 @@ index e9eedeb2..ff13e85a 100644
 +# MUSB DMA mode
 +#
 +CONFIG_MUSB_PIO_ONLY=y
-+CONFIG_USB_DWC3=m
+ CONFIG_USB_DWC3=m
 +CONFIG_USB_DWC3_ULPI=y
 +# CONFIG_USB_DWC3_HOST is not set
 +# CONFIG_USB_DWC3_GADGET is not set
@@ -1403,7 +1387,7 @@ index e9eedeb2..ff13e85a 100644
 +CONFIG_USB_DWC3_IMX8MP=m
 +CONFIG_USB_DWC3_XILINX=m
 +CONFIG_USB_DWC3_AM62=m
-+CONFIG_USB_DWC2=m
+ CONFIG_USB_DWC2=m
 +# CONFIG_USB_DWC2_HOST is not set
 +
 +#
@@ -1414,7 +1398,8 @@ index e9eedeb2..ff13e85a 100644
 +CONFIG_USB_DWC2_PCI=m
 +# CONFIG_USB_DWC2_DEBUG is not set
 +# CONFIG_USB_DWC2_TRACK_MISSED_SOFS is not set
-+CONFIG_USB_CHIPIDEA=m
+ CONFIG_USB_CHIPIDEA=m
+-# CONFIG_USB_ISP1760 is not set
 +CONFIG_USB_CHIPIDEA_UDC=y
 +CONFIG_USB_CHIPIDEA_HOST=y
 +CONFIG_USB_CHIPIDEA_PCI=m
@@ -1431,7 +1416,7 @@ index e9eedeb2..ff13e85a 100644
  
  #
  # USB port drivers
-@@ -4978,7 +5393,7 @@ CONFIG_USB_STORAGE=m
+@@ -4617,7 +5032,7 @@
  CONFIG_USB_SERIAL=m
  CONFIG_USB_SERIAL_GENERIC=y
  CONFIG_USB_SERIAL_SIMPLE=m
@@ -1440,7 +1425,7 @@ index e9eedeb2..ff13e85a 100644
  CONFIG_USB_SERIAL_ARK3116=m
  CONFIG_USB_SERIAL_BELKIN=m
  CONFIG_USB_SERIAL_CH341=m
-@@ -4986,104 +5401,231 @@ CONFIG_USB_SERIAL_WHITEHEAT=m
+@@ -4625,104 +5040,231 @@
  CONFIG_USB_SERIAL_DIGI_ACCELEPORT=m
  CONFIG_USB_SERIAL_CP210X=m
  CONFIG_USB_SERIAL_CYPRESS_M8=m
@@ -1719,7 +1704,7 @@ index e9eedeb2..ff13e85a 100644
  CONFIG_SDIO_UART=m
  # CONFIG_MMC_TEST is not set
  
-@@ -5091,59 +5633,102 @@ CONFIG_SDIO_UART=m
+@@ -4730,59 +5272,102 @@
  # MMC/SD/SDIO Host Controller Drivers
  #
  # CONFIG_MMC_DEBUG is not set
@@ -1847,7 +1832,7 @@ index e9eedeb2..ff13e85a 100644
  CONFIG_LEDS_BRIGHTNESS_HW_CHANGED=y
  
  #
-@@ -5481,8 +6066,14 @@ CONFIG_VFIO_PCI=m
+@@ -5120,8 +5705,14 @@
  #
  # VFIO support for platform devices
  #
@@ -1863,7 +1848,7 @@ index e9eedeb2..ff13e85a 100644
  # end of VFIO support for platform devices
  
  #
-@@ -5492,8 +6083,8 @@ CONFIG_VFIO_FSL_MC=m
+@@ -5131,8 +5722,8 @@
  # end of VFIO support for FSL_MC bus devices
  
  CONFIG_VIRT_DRIVERS=y
@@ -1874,7 +1859,7 @@ index e9eedeb2..ff13e85a 100644
  CONFIG_VIRTIO_ANCHOR=y
  CONFIG_VIRTIO=m
  CONFIG_VIRTIO_PCI_LIB=m
-@@ -5501,21 +6092,30 @@ CONFIG_VIRTIO_PCI_LIB_LEGACY=m
+@@ -5140,21 +5731,30 @@
  CONFIG_VIRTIO_MENU=y
  CONFIG_VIRTIO_PCI=m
  CONFIG_VIRTIO_PCI_LEGACY=y
@@ -1908,29 +1893,14 @@ index e9eedeb2..ff13e85a 100644
  # CONFIG_VHOST_CROSS_ENDIAN_LEGACY is not set
  
  #
-@@ -6283,7 +6883,15 @@ CONFIG_JBD2=m
- CONFIG_FS_MBCACHE=m
- # CONFIG_REISERFS_FS is not set
- # CONFIG_JFS_FS is not set
--# CONFIG_XFS_FS is not set
+@@ -6714,3 +7314,10 @@
+ #
+ # end of Rust hacking
+ # end of Kernel hacking
++CONFIG_SWAP=y
 +CONFIG_XFS_FS=m
 +CONFIG_XFS_SUPPORT_V4=y
 +CONFIG_XFS_SUPPORT_ASCII_CI=y
 +CONFIG_XFS_QUOTA=y
 +CONFIG_XFS_POSIX_ACL=y
-+# CONFIG_XFS_RT is not set
-+# CONFIG_XFS_ONLINE_SCRUB is not set
-+# CONFIG_XFS_WARN is not set
-+# CONFIG_XFS_DEBUG is not set
- # CONFIG_GFS2_FS is not set
- # CONFIG_OCFS2_FS is not set
- # CONFIG_BTRFS_FS is not set
-@@ -6300,7 +6908,7 @@ CONFIG_DNOTIFY=y
- CONFIG_INOTIFY_USER=y
- # CONFIG_FANOTIFY is not set
- # CONFIG_QUOTA is not set
--CONFIG_AUTOFS_FS=m
 +CONFIG_AUTOFS_FS=y
- CONFIG_FUSE_FS=m
- CONFIG_CUSE=m
- CONFIG_VIRTIO_FS=m
