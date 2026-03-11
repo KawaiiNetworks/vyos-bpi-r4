@@ -11,7 +11,6 @@ cp data/config.boot.default vyos-arm64-build/vyos-build/data/live-build-config/i
 cd vyos-arm64-build
 # fix kernel config
 patch --no-backup-if-mismatch -p1 -d vyos-build < ../patches/vyos-build/tmp-from-huihuimoe-vyos-build-001-kernel_config.patch
-patch --no-backup-if-mismatch -p1 -d vyos-build < data/vyos-build-002-mksquashfs_universal.patch
 patch --no-backup-if-mismatch -p1 -d vyos-build < data/vyos-build-003-fix_hardcoded_x86_64.patch
 # fix on https://github.com/vyos/vyos-build/commit/82a40e68c7e4b3ea45fb2bbc4a1a7cff92e41942
 #patch --no-backup-if-mismatch -p1 -d vyos-build < data/vyos-build-004-fix_saltproject_package_url.patch
