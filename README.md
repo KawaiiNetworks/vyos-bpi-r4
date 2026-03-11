@@ -243,6 +243,6 @@ Now the u-boot on SPI flash cannot detect nvme SSD so it's no use.
 ## How to get defconfig
 
 ```bash
-bash $PROJECT_ROOT/scripts/merge_config.sh -m --always-enable ../build/.config ../arch/arm64/configs/vyos_defconfig
+bash $PROJECT_ROOT/scripts/merge_config.sh -m --always-enable ../build/.config ../config/arm64/vyos_defconfig
 bash $PROJECT_ROOT/scripts/merge_config.sh -m --always-enable .config data/config_overrides
 ```

@@ -26,7 +26,7 @@ patch -p1 < $PROJECT_ROOT/patches/vyos-build/0003-build-linux-perf-package.patch
 patch -p1 < $PROJECT_ROOT/patches/BPI-Router-Linux/0001-bpi-r4-eth-name.patch
 patch -p1 < $PROJECT_ROOT/patches/BPI-Router-Linux/0002-change-build-device-to-bpi-r4.patch
 patch -p1 < $PROJECT_ROOT/patches/BPI-Router-Linux/0003-allow-run-as-root.patch
-cp $PROJECT_ROOT/patches/mt7988a_bpi-r4_defconfig arch/arm64/configs/mt7988a_bpi-r4_defconfig
+cp $PROJECT_ROOT/patches/mt7988a_bpi-r4_defconfig config/arm64/mt7988a_bpi-r4_defconfig
 
 bash build.sh importconfig
 bash build.sh build
