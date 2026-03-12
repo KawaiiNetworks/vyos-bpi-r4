@@ -1,0 +1,397 @@
+From 6ec98e6795ae37edf3024cff90cba89d35d4d6f4 Mon Sep 17 00:00:00 2001
+From: Frank Wunderlich <frank-w@public-files.de>
+Date: Mon, 3 Nov 2025 19:17:48 +0100
+Subject: [PATCH 01/10] arm64: dts: mt7988: add crypto node
+
+---
+ arch/arm64/boot/dts/mediatek/mt7988a.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/mediatek/mt7988a.dtsi b/arch/arm64/boot/dts/mediatek/mt7988a.dtsi
+index 00b13cf0a65f..714e3ff2c470 100644
+--- a/arch/arm64/boot/dts/mediatek/mt7988a.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt7988a.dtsi
+@@ -1065,6 +1065,17 @@
+ 			#size-cells = <1>;
+ 			ranges = <0 0x15400000 0 0x200000>;
+ 		};
++
++		crypto: crypto@15600000 {
++			compatible = "inside-secure,safexcel-eip197b";
++			reg = <0 0x15600000 0 0x180000>;
++			interrupts = <GIC_SPI 214 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 215 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 216 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 217 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "ring0", "ring1", "ring2", "ring3";
++			status = "okay";
++		};
+ 	};
+ 
+ 	thermal-zones {
+
+From 16e032f84f2b914190cbfd3690e0a91b8e982eeb Mon Sep 17 00:00:00 2001
+From: Frank Wunderlich <frank-w@public-files.de>
+Date: Sat, 15 Nov 2025 10:51:39 +0100
+Subject: [PATCH 02/10] crypto-add-eip97-inside-secure-support
+
+from
+https://github.com/openwrt/openwrt/blob/main/target/linux/mediatek/patches-6.12/400-crypto-add-eip97-inside-secure-support.patch
+---
+ drivers/crypto/inside-secure/safexcel.c | 8 ++++++++
+ drivers/crypto/inside-secure/safexcel.h | 1 +
+ 2 files changed, 9 insertions(+)
+
+diff --git a/drivers/crypto/inside-secure/safexcel.c b/drivers/crypto/inside-secure/safexcel.c
+index c3b2b22934b7..fda6eaa7a3f8 100644
+--- a/drivers/crypto/inside-secure/safexcel.c
++++ b/drivers/crypto/inside-secure/safexcel.c
+@@ -608,6 +608,14 @@ static int safexcel_hw_init(struct safexcel_crypto_priv *priv)
+ 		val |= EIP197_MST_CTRL_TX_MAX_CMD(5);
+ 		writel(val, EIP197_HIA_AIC(priv) + EIP197_HIA_MST_CTRL);
+ 	}
++	/*
++	 * Set maximum number of TX commands to 2^4 = 16 for EIP97 HW2.1/HW2.3
++	 */
++	else {
++		val = 0;
++		val |= EIP97_MST_CTRL_TX_MAX_CMD(4);
++		writel(val, EIP197_HIA_AIC(priv) + EIP197_HIA_MST_CTRL);
++	}
+ 
+ 	/* Configure wr/rd cache values */
+ 	writel(EIP197_MST_CTRL_RD_CACHE(RD_CACHE_4BITS) |
+diff --git a/drivers/crypto/inside-secure/safexcel.h b/drivers/crypto/inside-secure/safexcel.h
+index 0f27367a85fa..26b3290268c0 100644
+--- a/drivers/crypto/inside-secure/safexcel.h
++++ b/drivers/crypto/inside-secure/safexcel.h
+@@ -315,6 +315,7 @@
+ #define EIP197_MST_CTRL_RD_CACHE(n)		(((n) & 0xf) << 0)
+ #define EIP197_MST_CTRL_WD_CACHE(n)		(((n) & 0xf) << 4)
+ #define EIP197_MST_CTRL_TX_MAX_CMD(n)		(((n) & 0xf) << 20)
++#define EIP97_MST_CTRL_TX_MAX_CMD(n)		(((n) & 0xf) << 4)
+ #define EIP197_MST_CTRL_BYTE_SWAP		BIT(24)
+ #define EIP197_MST_CTRL_NO_BYTE_SWAP		BIT(25)
+ #define EIP197_MST_CTRL_BYTE_SWAP_BITS          GENMASK(25, 24)
+
+From ea8be3c56be391db08b526c29e075b098216b5b9 Mon Sep 17 00:00:00 2001
+From: Frank Wunderlich <frank-w@public-files.de>
+Date: Sat, 15 Nov 2025 10:53:25 +0100
+Subject: [PATCH 03/10] crypto-fix-eip97-cache-incoherent
+
+from
+https://github.com/openwrt/openwrt/blob/main/target/linux/mediatek/patches-6.12/401-crypto-fix-eip97-cache-incoherent.patch
+---
+ drivers/crypto/inside-secure/safexcel.h      | 3 +++
+ drivers/crypto/inside-secure/safexcel_hash.c | 4 ++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/crypto/inside-secure/safexcel.h b/drivers/crypto/inside-secure/safexcel.h
+index 26b3290268c0..c5fe97497a4a 100644
+--- a/drivers/crypto/inside-secure/safexcel.h
++++ b/drivers/crypto/inside-secure/safexcel.h
+@@ -743,6 +743,9 @@ struct safexcel_priv_data {
+ /* Priority we use for advertising our algorithms */
+ #define SAFEXCEL_CRA_PRIORITY		300
+ 
++/* System cache line size */
++#define SYSTEM_CACHELINE_SIZE		64
++
+ /* SM3 digest result for zero length message */
+ #define EIP197_SM3_ZEROM_HASH	"\x1A\xB2\x1D\x83\x55\xCF\xA1\x7F" \
+ 				"\x8E\x61\x19\x48\x31\xE8\x1A\x8F" \
+diff --git a/drivers/crypto/inside-secure/safexcel_hash.c b/drivers/crypto/inside-secure/safexcel_hash.c
+index ef0ba4832928..ffb762a6c0bf 100644
+--- a/drivers/crypto/inside-secure/safexcel_hash.c
++++ b/drivers/crypto/inside-secure/safexcel_hash.c
+@@ -55,9 +55,9 @@ struct safexcel_ahash_req {
+ 	u8 block_sz;    /* block size, only set once */
+ 	u8 digest_sz;   /* output digest size, only set once */
+ 	__le32 state[SHA3_512_BLOCK_SIZE /
+-		     sizeof(__le32)] __aligned(sizeof(__le32));
++		     sizeof(__le32)] __aligned(SYSTEM_CACHELINE_SIZE);
+ 
+-	u64 len;
++	u64 len __aligned(SYSTEM_CACHELINE_SIZE);
+ 	u64 processed;
+ 
+ 	u8 cache[HASH_CACHE_SIZE] __aligned(sizeof(u32));
+
+From e165fdc700c54f0359ec1b3221539f0db5589fd2 Mon Sep 17 00:00:00 2001
+From: Frank Wunderlich <frank-w@public-files.de>
+Date: Fri, 14 Nov 2025 19:40:06 +0100
+Subject: [PATCH 04/10] crypto-01-add-eip197-inside-secure-support
+
+https://git01.mediatek.com/plugins/gitiles/openwrt/feeds/mtk-openwrt-feeds/+/8630c64a5f0f1c15a11b66e61a62a3d80f5aa197
+---
+ drivers/crypto/inside-secure/safexcel.c | 18 ++++++++++++++++--
+ drivers/crypto/inside-secure/safexcel.h |  2 ++
+ 2 files changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/crypto/inside-secure/safexcel.c b/drivers/crypto/inside-secure/safexcel.c
+index fda6eaa7a3f8..87a139f233fd 100644
+--- a/drivers/crypto/inside-secure/safexcel.c
++++ b/drivers/crypto/inside-secure/safexcel.c
+@@ -414,13 +414,13 @@ static int eip197_load_firmwares(struct safexcel_crypto_priv *priv)
+ 	const struct firmware *fw[FW_NB];
+ 	char fw_path[37], *dir = NULL;
+ 	int i, j, ret = 0, pe;
+-	int ipuesz, ifppsz, minifw = 0;
++	int ipuesz, ifppsz, minifw = 1;
+ 
+ 	if (priv->data->version == EIP197D_MRVL)
+ 		dir = "eip197d";
+ 	else if (priv->data->version == EIP197B_MRVL ||
+ 		 priv->data->version == EIP197_DEVBRD)
+-		dir = "eip197b";
++		dir = "eip197_minifw";
+ 	else if (priv->data->version == EIP197C_MXL)
+ 		dir = "eip197c";
+ 	else
+@@ -455,6 +455,9 @@ static int eip197_load_firmwares(struct safexcel_crypto_priv *priv)
+ 
+ 	ipuesz = eip197_write_firmware(priv, fw[FW_IPUE]);
+ 
++	for (j = 0; j < i; j++)
++		release_firmware(fw[j]);
++
+ 	if (eip197_start_firmware(priv, ipuesz, ifppsz, minifw)) {
+ 		dev_dbg(priv->dev, "Firmware loaded successfully\n");
+ 		return 0;
+@@ -605,6 +608,11 @@ static int safexcel_hw_init(struct safexcel_crypto_priv *priv)
+ 	 */
+ 	if (priv->flags & SAFEXCEL_HW_EIP197) {
+ 		val = readl(EIP197_HIA_AIC(priv) + EIP197_HIA_MST_CTRL);
++		/* Clear axi_burst_size and rx_burst_size */
++		val &= 0xffffff00;
++		/* Set axi_burst_size = 3, rx_burst_size = 3 */
++		val |= EIP197_MST_CTRL_RD_CACHE(3);
++		val |= EIP197_MST_CTRL_WD_CACHE(3);
+ 		val |= EIP197_MST_CTRL_TX_MAX_CMD(5);
+ 		writel(val, EIP197_HIA_AIC(priv) + EIP197_HIA_MST_CTRL);
+ 	}
+@@ -805,6 +813,12 @@ static int safexcel_hw_init(struct safexcel_crypto_priv *priv)
+ 			return ret;
+ 	}
+ 
++	/* Allow clocks to be forced on for EIP197 */
++	if (priv->flags & SAFEXCEL_HW_EIP197) {
++		writel(0xffffffff, EIP197_HIA_GEN_CFG(priv) + EIP197_FORCE_CLOCK_ON);
++		writel(0xffffffff, EIP197_HIA_GEN_CFG(priv) + EIP197_FORCE_CLOCK_ON2);
++	}
++
+ 	return safexcel_hw_setup_cdesc_rings(priv) ?:
+ 	       safexcel_hw_setup_rdesc_rings(priv) ?:
+ 	       0;
+diff --git a/drivers/crypto/inside-secure/safexcel.h b/drivers/crypto/inside-secure/safexcel.h
+index c5fe97497a4a..c4cec8d308c7 100644
+--- a/drivers/crypto/inside-secure/safexcel.h
++++ b/drivers/crypto/inside-secure/safexcel.h
+@@ -189,6 +189,8 @@
+ #define EIP197_PE_DEBUG(n)			(0x1ff4 + (0x2000 * (n)))
+ #define EIP197_PE_OPTIONS(n)			(0x1ff8 + (0x2000 * (n)))
+ #define EIP197_PE_VERSION(n)			(0x1ffc + (0x2000 * (n)))
++#define EIP197_FORCE_CLOCK_ON2			0xffd8
++#define EIP197_FORCE_CLOCK_ON			0xffe8
+ #define EIP197_MST_CTRL				0xfff4
+ #define EIP197_OPTIONS				0xfff8
+ #define EIP197_VERSION				0xfffc
+
+From 7dcdc05b14202e8d43209e2235e9eb18fb5ca8a5 Mon Sep 17 00:00:00 2001
+From: Frank Wunderlich <frank-w@public-files.de>
+Date: Fri, 14 Nov 2025 19:41:17 +0100
+Subject: [PATCH 05/10] crypto-02-add-aead-3des-md57
+
+based on
+https://git01.mediatek.com/plugins/gitiles/openwrt/feeds/mtk-openwrt-feeds/+/8630c64a5f0f1c15a11b66e61a62a3d80f5aa197
+---
+ drivers/crypto/inside-secure/safexcel.c       |  1 +
+ drivers/crypto/inside-secure/safexcel.h       |  1 +
+ .../crypto/inside-secure/safexcel_cipher.c    | 50 +++++++++++++++++++
+ 3 files changed, 52 insertions(+)
+
+diff --git a/drivers/crypto/inside-secure/safexcel.c b/drivers/crypto/inside-secure/safexcel.c
+index 87a139f233fd..e27f320e263c 100644
+--- a/drivers/crypto/inside-secure/safexcel.c
++++ b/drivers/crypto/inside-secure/safexcel.c
+@@ -1264,6 +1264,7 @@ static struct safexcel_alg_template *safexcel_algs[] = {
+ 	&safexcel_alg_hmac_sha3_384,
+ 	&safexcel_alg_hmac_sha3_512,
+ 	&safexcel_alg_authenc_hmac_sha1_cbc_des,
++	&safexcel_alg_authenc_hmac_md5_cbc_des3_ede,
+ 	&safexcel_alg_authenc_hmac_sha256_cbc_des3_ede,
+ 	&safexcel_alg_authenc_hmac_sha224_cbc_des3_ede,
+ 	&safexcel_alg_authenc_hmac_sha512_cbc_des3_ede,
+diff --git a/drivers/crypto/inside-secure/safexcel.h b/drivers/crypto/inside-secure/safexcel.h
+index c4cec8d308c7..380e5105fcf0 100644
+--- a/drivers/crypto/inside-secure/safexcel.h
++++ b/drivers/crypto/inside-secure/safexcel.h
+@@ -989,6 +989,7 @@ extern struct safexcel_alg_template safexcel_alg_hmac_sha3_256;
+ extern struct safexcel_alg_template safexcel_alg_hmac_sha3_384;
+ extern struct safexcel_alg_template safexcel_alg_hmac_sha3_512;
+ extern struct safexcel_alg_template safexcel_alg_authenc_hmac_sha1_cbc_des;
++extern struct safexcel_alg_template safexcel_alg_authenc_hmac_md5_cbc_des3_ede;
+ extern struct safexcel_alg_template safexcel_alg_authenc_hmac_sha256_cbc_des3_ede;
+ extern struct safexcel_alg_template safexcel_alg_authenc_hmac_sha224_cbc_des3_ede;
+ extern struct safexcel_alg_template safexcel_alg_authenc_hmac_sha512_cbc_des3_ede;
+diff --git a/drivers/crypto/inside-secure/safexcel_cipher.c b/drivers/crypto/inside-secure/safexcel_cipher.c
+index 919e5a2cab95..e9383d1e47ee 100644
+--- a/drivers/crypto/inside-secure/safexcel_cipher.c
++++ b/drivers/crypto/inside-secure/safexcel_cipher.c
+@@ -23,6 +23,7 @@
+ #include <crypto/sm3.h>
+ #include <crypto/sm4.h>
+ #include <crypto/xts.h>
++#include <crypto/md5.h>
+ #include <crypto/skcipher.h>
+ #include <crypto/internal/aead.h>
+ #include <crypto/internal/skcipher.h>
+@@ -462,6 +463,9 @@ static int safexcel_aead_setkey(struct crypto_aead *ctfm, const u8 *key,
+ 
+ 	/* Auth key */
+ 	switch (ctx->hash_alg) {
++	case CONTEXT_CONTROL_CRYPTO_ALG_MD5:
++		alg = "safexcel-md5";
++		break;
+ 	case CONTEXT_CONTROL_CRYPTO_ALG_SHA1:
+ 		alg = "safexcel-sha1";
+ 		break;
+@@ -2027,6 +2031,52 @@ struct safexcel_alg_template safexcel_alg_authenc_hmac_sha384_cbc_des3_ede = {
+ 	},
+ };
+ 
++static int safexcel_aead_md5_cra_init(struct crypto_tfm *tfm)
++{
++	struct safexcel_cipher_ctx *ctx = crypto_tfm_ctx(tfm);
++
++	safexcel_aead_cra_init(tfm);
++	ctx->hash_alg = CONTEXT_CONTROL_CRYPTO_ALG_MD5;
++	ctx->state_sz = MD5_DIGEST_SIZE;
++	return 0;
++}
++
++static int safexcel_aead_md5_des3_cra_init(struct crypto_tfm *tfm)
++{
++	struct safexcel_cipher_ctx *ctx = crypto_tfm_ctx(tfm);
++
++	safexcel_aead_md5_cra_init(tfm);
++	ctx->alg = SAFEXCEL_3DES; /* override default */
++	ctx->blocksz = DES3_EDE_BLOCK_SIZE;
++	ctx->ivmask = EIP197_OPTION_2_TOKEN_IV_CMD;
++	return 0;
++}
++
++struct safexcel_alg_template safexcel_alg_authenc_hmac_md5_cbc_des3_ede = {
++	.type = SAFEXCEL_ALG_TYPE_AEAD,
++	.algo_mask = SAFEXCEL_ALG_DES | SAFEXCEL_ALG_MD5,
++	.alg.aead = {
++		.setkey = safexcel_aead_setkey,
++		.encrypt = safexcel_aead_encrypt,
++		.decrypt = safexcel_aead_decrypt,
++		.ivsize = DES3_EDE_BLOCK_SIZE,
++		.maxauthsize = MD5_DIGEST_SIZE,
++		.base = {
++			.cra_name = "authenc(hmac(md5),cbc(des3_ede))",
++			.cra_driver_name = "safexcel-authenc-hmac-md5-cbc-des3_ede",
++			.cra_priority = SAFEXCEL_CRA_PRIORITY,
++			.cra_flags = CRYPTO_ALG_ASYNC |
++				     CRYPTO_ALG_KERN_DRIVER_ONLY,
++			.cra_blocksize = DES3_EDE_BLOCK_SIZE,
++			.cra_ctxsize = sizeof(struct safexcel_cipher_ctx),
++			.cra_alignmask = 0,
++			.cra_init = safexcel_aead_md5_des3_cra_init,
++			.cra_exit = safexcel_aead_cra_exit,
++			.cra_module = THIS_MODULE,
++		},
++	},
++};
++
+ static int safexcel_aead_sha1_des_cra_init(struct crypto_tfm *tfm)
+ {
+ 	struct safexcel_cipher_ctx *ctx = crypto_tfm_ctx(tfm);
+
+From 2ab3bffaec47a8f4cd40a52a4ebd0d8db2ed8867 Mon Sep 17 00:00:00 2001
+From: Frank Wunderlich <frank-w@public-files.de>
+Date: Fri, 14 Nov 2025 19:42:05 +0100
+Subject: [PATCH 06/10] crypto-03-avoid-rcu-stall
+
+based on
+https://git01.mediatek.com/plugins/gitiles/openwrt/feeds/mtk-openwrt-feeds/+/8630c64a5f0f1c15a11b66e61a62a3d80f5aa197/master/files/target/linux/mediatek/patches-6.12/999-crypto-03-avoid-rcu-stall.patch
+---
+ drivers/crypto/inside-secure/safexcel.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/crypto/inside-secure/safexcel.c b/drivers/crypto/inside-secure/safexcel.c
+index e27f320e263c..27a738dc31cd 100644
+--- a/drivers/crypto/inside-secure/safexcel.c
++++ b/drivers/crypto/inside-secure/safexcel.c
+@@ -1038,7 +1038,6 @@ static inline void safexcel_handle_result_descriptor(struct safexcel_crypto_priv
+ 	int ret, i, nreq, ndesc, tot_descs, handled = 0;
+ 	bool should_complete;
+ 
+-handle_results:
+ 	tot_descs = 0;
+ 
+ 	nreq = readl(EIP197_HIA_RDR(priv, ring) + EIP197_HIA_xDR_PROC_COUNT);
+@@ -1047,6 +1046,7 @@ static inline void safexcel_handle_result_descriptor(struct safexcel_crypto_priv
+ 	if (!nreq)
+ 		goto requests_left;
+ 
++	local_bh_disable();
+ 	for (i = 0; i < nreq; i++) {
+ 		req = safexcel_rdr_req_get(priv, ring);
+ 
+@@ -1059,15 +1059,13 @@ static inline void safexcel_handle_result_descriptor(struct safexcel_crypto_priv
+ 			goto acknowledge;
+ 		}
+ 
+-		if (should_complete) {
+-			local_bh_disable();
++		if (should_complete)
+ 			crypto_request_complete(req, ret);
+-			local_bh_enable();
+-		}
+ 
+ 		tot_descs += ndesc;
+ 		handled++;
+ 	}
++	local_bh_enable();
+ 
+ acknowledge:
+ 	if (i)
+@@ -1075,12 +1073,6 @@ static inline void safexcel_handle_result_descriptor(struct safexcel_crypto_priv
+ 		       (tot_descs * priv->config.rd_offset),
+ 		       EIP197_HIA_RDR(priv, ring) + EIP197_HIA_xDR_PROC_COUNT);
+ 
+-	/* If the number of requests overflowed the counter, try to proceed more
+-	 * requests.
+-	 */
+-	if (nreq == EIP197_xDR_PROC_xD_PKT_MASK)
+-		goto handle_results;
+-
+ requests_left:
+ 	spin_lock_bh(&priv->ring[ring].lock);
+ 
+
+From 38c2790e1ccd2fce1448106477bd91ff9fe4206d Mon Sep 17 00:00:00 2001
+From: Frank Wunderlich <frank-w@public-files.de>
+Date: Sat, 15 Nov 2025 14:48:37 +0100
+Subject: [PATCH 09/10] crypto: add debug for silent abort (version still 0)
+
+---
+ drivers/crypto/inside-secure/safexcel.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/crypto/inside-secure/safexcel.c b/drivers/crypto/inside-secure/safexcel.c
+index 27a738dc31cd..95b1efa06806 100644
+--- a/drivers/crypto/inside-secure/safexcel.c
++++ b/drivers/crypto/inside-secure/safexcel.c
+@@ -1443,6 +1443,7 @@ static int safexcel_probe_generic(void *pdev,
+ 			priv->hwconfig.hiaver = EIP197_VERSION_SWAP(version);
+ 			priv->flags |= SAFEXCEL_HW_EIP197;
+ 		} else {
++			dev_err(dev, "DBG %s:%d (version:%d)\n",__func__,__LINE__,version);
+ 			return -ENODEV;
+ 		}
+ 	}
+

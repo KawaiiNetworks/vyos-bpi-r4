@@ -26,6 +26,12 @@ patch -p1 < $PROJECT_ROOT/patches/vyos-build/0003-build-linux-perf-package.patch
 patch -p1 < $PROJECT_ROOT/patches/BPI-Router-Linux/0001-bpi-r4-eth-name.patch
 patch -p1 < $PROJECT_ROOT/patches/BPI-Router-Linux/0002-change-build-device-to-bpi-r4.patch
 patch -p1 < $PROJECT_ROOT/patches/BPI-Router-Linux/0003-allow-run-as-root.patch
+# add crypto support for mt7988a, which is used in BPI-R4 Pro. from frank-w/BPI-Router-Linux branch 6.18-crypto
+patch -p1 < $PROJECT_ROOT/patches/BPI-Router-Linux/0004-bpi-r4-crypto.patch
+mkdir -p utils/firmware/inside-secure/eip197_minifw/
+curl -L -o utils/firmware/inside-secure/eip197_minifw/ifpp.bin "https://raw.githubusercontent.com/frank-w/BPI-Router-Linux/6.18-crypto/utils/firmware/inside-secure/eip197_minifw/ifpp.bin"
+curl -L -o utils/firmware/inside-secure/eip197_minifw/ipue.bin "https://raw.githubusercontent.com/frank-w/BPI-Router-Linux/6.18-crypto/utils/firmware/inside-secure/eip197_minifw/ipue.bin"
+
 cp $PROJECT_ROOT/patches/mt7988a_bpi-r4_defconfig arch/arm64/configs/mt7988a_bpi-r4_defconfig
 
 bash build.sh importconfig

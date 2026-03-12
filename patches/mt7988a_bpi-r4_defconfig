@@ -10797,7 +10797,7 @@ CONFIG_ARCH_USE_MEMTEST=y
 
 CONFIG_LOCALVERSION=""
 CONFIG_UEVENT_HELPER_PATH="/sbin/hotplug"
-CONFIG_EXTRA_FIRMWARE="aeonsemi/as21x1x_fw.bin mediatek/mt7987/i2p5ge-phy-DSPBitTb.bin mediatek/mt7987/i2p5ge-phy-pmb.bin"
+CONFIG_EXTRA_FIRMWARE="aeonsemi/as21x1x_fw.bin mediatek/mt7987/i2p5ge-phy-DSPBitTb.bin mediatek/mt7987/i2p5ge-phy-pmb.bin inside-secure/eip197_minifw/ifpp.bin inside-secure/eip197_minifw/ipue.bin"
 CONFIG_FAT_DEFAULT_IOCHARSET="iso8859-1"
 CONFIG_NLS_DEFAULT="utf8"
 CONFIG_ARCH_MMAP_RND_BITS_MAX=33
