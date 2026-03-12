@@ -17,6 +17,7 @@ bash $PROJECT_ROOT/scripts/set_kernel-vars.sh # <- that isn't a typo
 bash $PROJECT_ROOT/scripts/genkey.sh
 
 cd $PROJECT_ROOT/vyos-arm64-build/vyos-build
+patch -p1 < $PROJECT_ROOT/patches/vyos-build/0004-build-realtek.patch
 patch -p1 < $PROJECT_ROOT/patches/vyos-build/0011-build-linux-package-toml.patch
 patch -p1 < $PROJECT_ROOT/patches/vyos-build/0012-build-jool.patch
 patch -p1 < $PROJECT_ROOT/patches/vyos-build/0013-build-linux-firmware.patch
